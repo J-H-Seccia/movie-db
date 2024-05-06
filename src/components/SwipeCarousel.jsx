@@ -1,5 +1,6 @@
 import { motion, useMotionValue } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const DRAG_BUFFER = 50;
@@ -80,6 +81,12 @@ export const SwipeCarousel = ({ backdropImgs, movieInfo }) => {
 }
 
 const Images = ({ imgIndex, backdropImgs, movieInfo }) => {
+    const navigate = useNavigate();
+
+    const handleMoreInfo = (movieId) => {
+        navigate(`/movie/${movieId}`);
+    }
+
     return backdropImgs ? (
         <>
             {backdropImgs.map((imgSrc, idx) => (
@@ -103,7 +110,9 @@ const Images = ({ imgIndex, backdropImgs, movieInfo }) => {
                             <p className="text-3xl py-4">{movieInfo.results[idx].release_date}</p>
                             <p className="text-2xl">{movieInfo.results[idx].overview}</p>
                             <p className="absolute top-0 right-0 text-5xl px-4">Rating: {movieInfo.results[idx].vote_average}</p>
-                            <p className='p-4 rounded-full bg-sky-600 text-2xl w-44 text-center absolute bottom-0 left-0 mx-4 my-2'>More Info</p>
+                            <button  className='p-4 rounded-full bg-sky-600 text-2xl w-44 text-center absolute bottom-0 left-0 mx-4 my-2'
+                                onClick={() => handleMoreInfo(movieInfo.results[idx].id)}
+                                >More Info</button>
                         </div>
                     )}
                 </motion.div>
