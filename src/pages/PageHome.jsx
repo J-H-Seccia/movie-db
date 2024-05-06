@@ -60,7 +60,7 @@ function PageHome() {
             <h1 className="text-3xl font-bold underline">
                 Home Page
             </h1>
-            <SwipeCarousel backdropImgs={backdropImgs} />
+            <SwipeCarousel backdropImgs={backdropImgs} movieInfo={movieInfo}/>
         </div>
 
         

@@ -13,7 +13,7 @@ const SPRING_OPTIONS = {
     damping: 50,
 }
 
-export const SwipeCarousel = ({ backdropImgs }) => {
+export const SwipeCarousel = ({ backdropImgs, movieInfo }) => {
     const [dragging, setDragging] = useState(false);
     const [imgIndex, setImgIndex] = useState(0);
 
@@ -71,7 +71,7 @@ export const SwipeCarousel = ({ backdropImgs }) => {
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         className="flex items-center cursor-grab active:cursor-grabbing">
-            <Images imgIndex={imgIndex} backdropImgs={backdropImgs} />
+            <Images imgIndex={imgIndex} backdropImgs={backdropImgs} movieInfo={movieInfo}/>
         </motion.div>
 
         <Dots imgIndex={imgIndex} setImgIndex={setImgIndex} backdropImgs={backdropImgs}/>
@@ -79,12 +79,12 @@ export const SwipeCarousel = ({ backdropImgs }) => {
     )
 }
 
-const Images = ({ imgIndex, backdropImgs }) => {
+const Images = ({ imgIndex, backdropImgs, movieInfo }) => {
     return backdropImgs ? (
         <>
             {backdropImgs.map((imgSrc, idx) => (
-                <motion.div 
-                    key={idx}
+                <motion.div
+                key={idx}
                     style={{
                         backgroundImage: `url(${imgSrc})`,
                         backgroundSize: 'cover',
@@ -95,7 +95,20 @@ const Images = ({ imgIndex, backdropImgs }) => {
                     }}
                     transition={SPRING_OPTIONS}
                     className="aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
-                />
+                >
+                    {/* Text overlay */}
+                    {movieInfo && movieInfo.results && (
+                        <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-black bg-opacity-50 text-white h-1/2">
+                            <h3 className="text-5xl font-bold ">{movieInfo.results[idx].title}</h3>
+                            <p className="text-3xl py-4">{movieInfo.results[idx].release_date}</p>
+                            <p className="text-2xl">{movieInfo.results[idx].overview}</p>
+                            <p className="absolute top-0 right-0 text-5xl px-4">Rating: {movieInfo.results[idx].vote_average}</p>
+                            <p className='p-4 rounded-full bg-sky-600 text-2xl w-44 text-center absolute bottom-0 left-0 mx-4 my-2'>More Info</p>
+                        </div>
+                    )}
+                </motion.div>
+                    
+                
             ))}
         </>
     ) : null;
