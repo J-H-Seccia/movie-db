@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { appTitle, apiKey, endPointPlayingNow, endPointSearch, imageBaseURL } from "../globals/globalVariables";
+import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
 
 function PageHome() {
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState("");
     const [movieImage, setMovieImage] = useState("");
     const [movieDetails, selectMovieDetails] = useState({});
-    // const [category, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
 
     // Page Title
     useEffect(() => {
@@ -16,17 +16,36 @@ function PageHome() {
     useEffect(() => {
         // Fetch movies playing now
         const fetchMovies = async () => {
+        
+            let endpoint;
+            switch(selectedCategory) {
+                case "Now Playing":
+                    endpoint = endPointPlayingNow;
+                    break;
+                case "Popular":
+                    endpoint = endPointPopular;
+                    break;
+                case "Top Rated":
+                    endpoint = endPointTopRated;
+                    break;
+                case "Upcoming":
+                    endpoint = endPointUpcoming;
+                    break;
+                default:
+                    endpoint = endPointPlayingNow;
+            }
 
-        const response = await fetch(`${endPointPlayingNow}?api_key=${apiKey}`);
-        const data = await response.json();
-        if (data.results.length > 0) {
-            setMovies(data.results);
-            setSelectedMovie((data.results[0].id));
-        }
+            const response = await fetch(`${endpoint}?api_key=${apiKey}`);
+            let data = await response.json();
+            if (data.results.length > 0) {
+                setMovies(data.results);
+                setSelectedMovie((data.results[0].id));
+                console.log(endpoint);
+            }
 
         };
         fetchMovies();
-    }, []);
+    }, [selectedCategory]);
 
     const fetchSingleMovie = async () => {
 
@@ -69,22 +88,40 @@ function PageHome() {
         <>
             <h1 className="text-3xl font-bold underline">Home Page</h1>
 
-            {/* <div className="movie-tabs">
-                <ul>
-                    <li
-                        key={category}
-                        className={category === selectedCategory ? "active" : ""}
-                        onClick={() => setSelectedCategory(category)}
-                    >
-                        {category}
-                    </li>
-                </ul>
-            </div> */}
-
+            <div className="category-tabs">
+                <button
+                    className={selectedCategory === "Now Playing" ? "active" : ""}
+                    onClick={() => setSelectedCategory("Now Playing")}
+                >
+                    Now Playing
+                </button>
+                <button
+                    className={selectedCategory === "Popular" ? "active" : ""}
+                    onClick={() => setSelectedCategory("Popular")}
+                >
+                    Popular
+                </button>
+                <button
+                    className={selectedCategory === "Top Rated" ? "active" : ""}
+                    onClick={() => setSelectedCategory("Top Rated")}
+                >
+                    Top Rated
+                </button>
+                <button
+                    className={selectedCategory === "Upcoming" ? "active" : ""}
+                    onClick={() => setSelectedCategory("Upcoming")}
+                >
+                    Upcoming
+                </button>
+            </div>
 
             <form onSubmit={handleGetMovie}>
                 <label htmlFor="select-movie">Select Movie</label>
-                <select name="selectMovie" id="selectMovie" value={selectedMovie} onChange={handleChangeMovie} size="5">
+                <select name="selectMovie" 
+                        id="selectMovie" 
+                        value={selectedMovie} 
+                        onChange={handleChangeMovie} size="5">
+                            
                     {movies.map(movie => (
                         <option key={movie.id} value={movie.id}>
                             {movie.title}

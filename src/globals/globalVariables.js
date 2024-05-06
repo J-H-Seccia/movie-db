@@ -3,4 +3,7 @@ export const apiRAT = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OWJiYTJmNTQ2N2U3Yzk1NmVj
 export const appTitle = "ScreenScape";
 export const endPointSearch = "https://api.themoviedb.org/3/movie/";
 export const endPointPlayingNow = "https://api.themoviedb.org/3/movie/now_playing";
+export const endPointPopular = "https://api.themoviedb.org/3/movie/popular";
+export const endPointTopRated = "https://api.themoviedb.org/3/movie/top_rated";
+export const endPointUpcoming = "https://api.themoviedb.org/3/movie/upcoming";
 export const imageBaseURL = "https://image.tmdb.org/t/p/"
