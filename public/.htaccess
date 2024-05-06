@@ -1,0 +1,33 @@
+# Enable rewrite engine
+RewriteEngine On
+
+# Redirect www to non-www
+RewriteCond %{HTTP_HOST} ^www\.example\.com [NC]
+RewriteRule ^(.*)$ http://example.com/$1 [L,R=301]
+
+# Redirect HTTP to HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# Protect .htaccess and .htpasswd files
+<FilesMatch "^\.ht">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Disable directory browsing
+Options -Indexes
+
+
+
+Options -MultiViews
+# We disable MultiViews
+RewriteEngine On
+# Then we turn on the RewriteEngine, allowing us to modify URLs based on certain conditions
+RewriteCond %{REQUEST_FILENAME} !-f
+# The !-f condition tells the server to only apply the following rule if the requested file does not exist
+RewriteRule ^ index.html [QSA,L]
+# The ^ index.html tells the server to redirect all requests to index.html
+# The last array of letters mean the following:
+# QSA: Query String Append - append the query string from the original request to the new URL
+# L: Last - stop processing rules after this one
