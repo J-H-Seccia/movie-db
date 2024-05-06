@@ -4,7 +4,6 @@ import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming
 function PageHome() {
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState("");
-    const [movieImage, setMovieImage] = useState("");
     const [movieDetails, selectMovieDetails] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("");
 
@@ -14,9 +13,8 @@ function PageHome() {
     }, []);
 
     useEffect(() => {
-        // Fetch movies playing now
+        // Fetch movies based on the selected category
         const fetchMovies = async () => {
-        
             let endpoint;
             switch(selectedCategory) {
                 case "Now Playing":
@@ -36,32 +34,25 @@ function PageHome() {
             }
 
             const response = await fetch(`${endpoint}?api_key=${apiKey}`);
-            let data = await response.json();
+            const data = await response.json();
             if (data.results.length > 0) {
                 setMovies(data.results);
-                setSelectedMovie((data.results[0].id));
-                console.log(endpoint);
+                setSelectedMovie(data.results[0].id);
             }
-
         };
         fetchMovies();
     }, [selectedCategory]);
 
-    const fetchSingleMovie = async () => {
+    const handleChangeCategory = (category) => {
+        setSelectedCategory(category);
+    };
 
-        const api = `${endPointSearch}${selectedMovie}?api_key=${apiKey}`;
+    const fetchSingleMovie = async (id) => {
+        const api = `${endPointSearch}${id}?api_key=${apiKey}`;
         const response = await fetch(api);
+        const data = await response.json();
 
-        let data = await response.json();
-        
-        // display movie img
-        const movieData = {
-            src: `${imageBaseURL}w500${data.poster_path}`,
-            alt: data.title,
-        };
-        setMovieImage(movieData);
-
-        // display movie details
+        // Display movie details
         selectMovieDetails({
             title: data.title,
             overview: data.overview,
@@ -69,19 +60,10 @@ function PageHome() {
             vote_average: data.vote_average,
             genres: data.genres.map(genre => genre.name).join(", "),
         });
-        
     };
 
-    const handleGetMovie = async (e) => {
-        e.preventDefault();
-        console.log(selectedMovie);
-        fetchSingleMovie();
-    };
-    
-
-    const handleChangeMovie = (e) => {
-        setSelectedMovie(e.target.value);
-        console.log(selectedMovie)
+    const handleGetMovie = (id) => {
+        fetchSingleMovie(id);
     };
 
     return (
@@ -91,54 +73,42 @@ function PageHome() {
             <div className="category-tabs">
                 <button
                     className={selectedCategory === "Now Playing" ? "active" : ""}
-                    onClick={() => setSelectedCategory("Now Playing")}
+                    onClick={() => handleChangeCategory("Now Playing")}
                 >
                     Now Playing
                 </button>
                 <button
                     className={selectedCategory === "Popular" ? "active" : ""}
-                    onClick={() => setSelectedCategory("Popular")}
+                    onClick={() => handleChangeCategory("Popular")}
                 >
                     Popular
                 </button>
                 <button
                     className={selectedCategory === "Top Rated" ? "active" : ""}
-                    onClick={() => setSelectedCategory("Top Rated")}
+                    onClick={() => handleChangeCategory("Top Rated")}
                 >
                     Top Rated
                 </button>
                 <button
                     className={selectedCategory === "Upcoming" ? "active" : ""}
-                    onClick={() => setSelectedCategory("Upcoming")}
+                    onClick={() => handleChangeCategory("Upcoming")}
                 >
                     Upcoming
                 </button>
             </div>
 
-            <form onSubmit={handleGetMovie}>
-                <label htmlFor="select-movie">Select Movie</label>
-                <select name="selectMovie" 
-                        id="selectMovie" 
-                        value={selectedMovie} 
-                        onChange={handleChangeMovie} size="5">
-                            
-                    {movies.map(movie => (
-                        <option key={movie.id} value={movie.id}>
-                            {movie.title}
-                        </option>
-                    ))}
-                </select>
-
-                <div className="submit-group">
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        {movieImage ? "Get Another Movie" : "Get Movie"}
-                    </button>
-                </div>
-            </form>
-
-            <div className="movie-image">
-                {movieImage && <img src={movieImage.src} alt={movieImage.alt} />}
+            <div className="grid grid-cols-3 gap-4">
+                {movies.map(movie => (
+                    <img 
+                    key={movie.id} 
+                    src={`${imageBaseURL}w500${movie.poster_path}`} 
+                    alt={movie.title} 
+                    className={`${selectedMovie === movie.id ? "selected" : ""} cursor-pointer`}
+                    onClick={() => handleGetMovie(movie.id)} 
+                    />
+                ))}
             </div>
+
 
             <div className="movie-details">
                 <h2>Movie Details</h2>
