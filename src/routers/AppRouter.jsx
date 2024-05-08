@@ -1,4 +1,5 @@
 //Router Imports
+import React from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 // Page Imports
@@ -23,7 +24,7 @@ function AppRouter() {
                         <Routes>
                             <Route path="/" exact element={<PageHome />} />
                             <Route path="/about" element={<PageAbout />} />
-                            <Route path="/single" element={<PageSingle />} />
+                            <Route path="/single/:id" element={<PageSingle />} />
                             <Route path="/favourites" element={<PageFavourites />} />
                             <Route path="*" element={<PageNotFound />} />
                         </Routes>
