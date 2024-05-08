@@ -159,7 +159,7 @@ function PageHome() {
                     <div className="cast-images">
                         <h3 className="text-xl font-bold">Cast</h3>
                         <div className="grid grid-cols-3 gap-4">
-                            {movieDetails.cast.map(actor => (
+                            {movieDetails.cast.slice(0,6).map(actor => (
                                 <div key={actor.name} className="flex flex-col items-center">
                                     <img 
                                         src={actor.image} 
