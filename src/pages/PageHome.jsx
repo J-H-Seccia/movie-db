@@ -80,6 +80,7 @@ function PageHome() {
         fetchPopularCarousel();
     }, [])
 
+    
     //Build paths for backdrop images
     useEffect(() => {
         function buildBackdropPaths() {
