@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
+import MovieDetails from '../components/MovieDetails';
+import { Link } from 'react-router-dom';
 
 function PageHome() {
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState("");
-    const [movieDetails, selectMovieDetails] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     // Page Title
     useEffect(() => {
@@ -15,29 +18,36 @@ function PageHome() {
     useEffect(() => {
         // Fetch movies based on the selected category
         const fetchMovies = async () => {
-            let endpoint;
-            switch(selectedCategory) {
-                case "Now Playing":
-                    endpoint = endPointPlayingNow;
-                    break;
-                case "Popular":
-                    endpoint = endPointPopular;
-                    break;
-                case "Top Rated":
-                    endpoint = endPointTopRated;
-                    break;
-                case "Upcoming":
-                    endpoint = endPointUpcoming;
-                    break;
-                default:
-                    endpoint = endPointPlayingNow;
-            }
+            setLoading(true);
+            try {
+                let endpoint;
+                switch(selectedCategory) {
+                    case "Now Playing":
+                        endpoint = endPointPlayingNow;
+                        break;
+                    case "Popular":
+                        endpoint = endPointPopular;
+                        break;
+                    case "Top Rated":
+                        endpoint = endPointTopRated;
+                        break;
+                    case "Upcoming":
+                        endpoint = endPointUpcoming;
+                        break;
+                    default:
+                        endpoint = endPointPlayingNow;
+                }
 
-            const response = await fetch(`${endpoint}?api_key=${apiKey}`);
-            const data = await response.json();
-            if (data.results.length > 0) {
-                setMovies(data.results);
-                setSelectedMovie(data.results[0].id);
+                const response = await fetch(`${endpoint}?api_key=${apiKey}`);
+                const data = await response.json();
+                if (data.results.length > 0) {
+                    setMovies(data.results);
+                    setSelectedMovie(data.results[0].id);
+                }
+            } catch (error) {
+                setError("Failed to fetch movies. Please try again later.");
+            } finally {
+                setLoading(false);
             }
         };
         fetchMovies();
@@ -45,25 +55,6 @@ function PageHome() {
 
     const handleChangeCategory = (category) => {
         setSelectedCategory(category);
-    };
-
-    const fetchSingleMovie = async (id) => {
-        const api = `${endPointSearch}${id}?api_key=${apiKey}`;
-        const response = await fetch(api);
-        const data = await response.json();
-
-        // Display movie details
-        selectMovieDetails({
-            title: data.title,
-            overview: data.overview,
-            release_date: data.release_date,
-            vote_average: data.vote_average,
-            genres: data.genres.map(genre => genre.name).join(", "),
-        });
-    };
-
-    const handleGetMovie = (id) => {
-        fetchSingleMovie(id);
     };
 
     return (
@@ -99,24 +90,17 @@ function PageHome() {
 
             <div className="grid grid-cols-3 gap-4">
                 {movies.map(movie => (
-                    <img 
-                    key={movie.id} 
-                    src={`${imageBaseURL}w500${movie.poster_path}`} 
-                    alt={movie.title} 
-                    className={`${selectedMovie === movie.id ? "selected" : ""} cursor-pointer`}
-                    onClick={() => handleGetMovie(movie.id)} 
-                    />
+                    <div key={movie.id} className="movie">
+                        <img
+                            src={`${imageBaseURL}w500${movie.poster_path}`}
+                            alt={movie.title}
+                            className={`${selectedMovie === movie.id ? "selected" : ""} cursor-pointer`}
+                            onClick={() => setSelectedMovie(movie)}
+                        />
+                        {/* Include MovieDetails component */}
+                        <MovieDetails movie={movie} />
+                    </div>
                 ))}
-            </div>
-
-
-            <div className="movie-details">
-                <h2>Movie Details</h2>
-                <p>Title: {movieDetails.title}</p>
-                <p>Overview: {movieDetails.overview}</p>
-                <p>Release Date: {movieDetails.release_date}</p>
-                <p>Rating: {movieDetails.vote_average}</p>
-                <p>Genres: {movieDetails.genres}</p>
             </div>
         </>
     );
