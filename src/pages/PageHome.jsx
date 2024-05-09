@@ -1,12 +1,21 @@
 import { useEffect, useState } from "react";
-import { appTitle } from "../globals/globalVariables";
 import {SwipeCarousel} from "../components/SwipeCarousel";
-import { apiKey, apiRAT } from "../globals/globalVariables";
+import { appTitle, apiRAT, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
+import { shuffleArray } from "../utils/utilityFunctions";
+import CategoryTabs from "../components/CategoryTabs";
 
-import one from '../images/nature/1.jpg';
+const CATEGORIES = {
+    nowPlaying: 'Now Playing',
+    popular: 'Popular',
+    topRated: 'Top Rated',
+    upcoming: 'Upcoming'
+}
 
 function PageHome() {
-    const [movieInfo, setMovieInfo] = useState(null);
+    const [movies, setMovies] = useState([]);
+    const [selectedMovie, setSelectedMovie] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [popularCarousel, setPopularCarousel] = useState(null);
     const [backdropImgs, setBackdropImgs] = useState(null);
 
     //Page Title
@@ -14,32 +23,68 @@ function PageHome() {
         document.title = `Home | ${appTitle}`;
     }, []);
 
-    //Fetches
-    useEffect( () => {
-        const options = {
-            method: 'GET',
-            headers: {
-              accept: 'application/json',
-              Authorization: `Bearer ${apiRAT}`
+    useEffect(() => {
+        // Fetch movies based on the selected category
+        const fetchMovies = async () => {
+            let endpoint;
+            switch(selectedCategory) {
+                case CATEGORIES.nowPlaying:
+                    endpoint = endPointPlayingNow;
+                    break;
+                case CATEGORIES.popular:
+                    endpoint = endPointPopular;
+                    break;
+                case CATEGORIES.topRated:
+                    endpoint = endPointTopRated;
+                    break;
+                case CATEGORIES.upcoming:
+                    endpoint = endPointUpcoming;
+                    break;
+                default:
+                    endpoint = endPointPlayingNow;
             }
-          };
 
-        const fetchPopular = async () => {
-            const response = await fetch( 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options );
+            const response = await fetch(`${endpoint}?api_key=${apiKey}`);
+            const data = await response.json();
+            if (data.results.length > 0) {
+                setMovies(data.results);
+                setSelectedMovie(data.results[0].id);
+            }
+        };
+        fetchMovies();
+    }, [selectedCategory]);
+
+
+    //Handle function for when a user clicks a different category
+    const handleChangeCategory = (category) => {
+        setSelectedCategory(category);
+    };
+
+    //Fetch popular movies for hero section carousel
+    useEffect( () => {
+
+        const fetchPopularCarousel = async () => {
+            const response = await fetch( `${endPointPopular}?api_key=${apiKey}` );
             let data = await response.json();
             console.log( data );
-            setMovieInfo(data);
+            if (data.results.length > 0) {
+                       // Shuffle the array of results
+                        const shuffledResults = shuffleArray(data.results);
+                        // Select the first 5 entries
+                        const selectedResults = shuffledResults.slice(0, 6);
+                        // Set the popular carousel with the selected results
+                        setPopularCarousel(selectedResults);
+            }
         }
 
-
-
-        fetchPopular();
+        fetchPopularCarousel();
     }, [])
 
+    //Build paths for backdrop images
     useEffect(() => {
         function buildBackdropPaths() {
-            if (movieInfo && movieInfo.results) {
-                const backdropPaths = movieInfo.results.map(movie => movie.backdrop_path);
+            if (popularCarousel ) {
+                const backdropPaths = popularCarousel.map(movie => movie.backdrop_path);
                 const baseImgUrl = "http://image.tmdb.org/t/p/w1280"
                 const fullImgUrls = [];
                 backdropPaths.forEach(path => {
@@ -51,7 +96,7 @@ function PageHome() {
         }
     
         buildBackdropPaths();
-    }, [movieInfo]);
+    }, [popularCarousel]);
 
     
     
@@ -60,7 +105,24 @@ function PageHome() {
             <h1 className="text-3xl font-bold underline">
                 Home Page
             </h1>
-            <SwipeCarousel backdropImgs={backdropImgs} movieInfo={movieInfo}/>
+
+            <SwipeCarousel backdropImgs={backdropImgs} movieInfo={popularCarousel}/>
+
+            <div className="category-tabs ">
+                <CategoryTabs handleChangeCategory={handleChangeCategory}/>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+                {movies.map(movie => (
+                    <img 
+                    key={movie.id} 
+                    src={`${imageBaseURL}w500${movie.poster_path}`} 
+                    alt={movie.title} 
+                    className={`${selectedMovie === movie.id ? "selected" : ""} cursor-pointer`}
+                    onClick={() => handleGetMovie(movie.id)} 
+                    />
+                ))}
+            </div>
         </div>
 
         
