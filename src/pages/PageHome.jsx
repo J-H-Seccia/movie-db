@@ -80,14 +80,23 @@ function PageHome() {
                 <div className="grid grid-cols-3 gap-4">
                     {movies.map(movie => (
                         <Link key={movie.id} to={`/single/${movie.id}`}>
-                            <img 
-                                src={`${imageBaseURL}w500${movie.poster_path}`} 
-                                alt={movie.title} 
-                                className="cursor-pointer"
-                            />
+                            <div className="thumbnail-container relative">
+                                <img 
+                                    src={`${imageBaseURL}w500${movie.poster_path}`} 
+                                    alt={movie.title} 
+                                    className="cursor-pointer"
+                                />
+                                <div className="overlay absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 text-white flex flex-col items-center justify-center opacity-0 transition-opacity duration-300 hover:opacity-100">
+                                    <h3 className="text-lg font-semibold">{movie.title}</h3>
+                                    <p className="text-sm">{movie.release_date}</p>
+                                    <p className="text-sm">{movie.overview ? movie.overview.slice(0, 100) + "..." : "Overview not available"}</p>
+                                </div>
+                            </div>
                         </Link>
                     ))}
                 </div>
+
+
             )}
         </>
     );
