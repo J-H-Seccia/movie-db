@@ -16,11 +16,11 @@ function PageSingle() {
                 const api = `${endPointSearch}${id}?api_key=${apiKey}`;
                 const response = await fetch(api);
                 const data = await response.json();
-
+                
                 // Fetch movie credits
                 const creditsResponse = await fetch(`${endPointMovieCredits}${id}/credits?api_key=${apiKey}`);
                 const creditsData = await creditsResponse.json();
-
+                
                 const castWithImages = await Promise.all(creditsData.cast.map(async credit => {
                     // Fetch image URL for each cast member
                     const imageUrl = await fetchActorImageUrl(credit.id);
@@ -29,7 +29,8 @@ function PageSingle() {
                         image: imageUrl,
                     };
                 }));
-
+                
+                
                 // Display movie details
                 setMovieDetails({
                     title: data.title,
