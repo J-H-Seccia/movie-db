@@ -7,6 +7,7 @@ function PageSingle() {
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [videoTrailers, setVideoTrailers] = useState([]);
 
     // Fetch movie details using the ID from the URL
     useEffect(() => {
@@ -39,6 +40,9 @@ function PageSingle() {
                     genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "",
                     cast: castWithImages,
                 });
+
+                await fetchVideoTrailers();
+
             } catch (error) {
                 setError("Failed to fetch movie details. Please try again later.");
             } finally {
@@ -48,6 +52,39 @@ function PageSingle() {
 
         fetchSingleMovie();
     }, [id]);
+
+    const constructVideoUrl = (site, key) => {
+        if (site === 'YouTube') {
+            return `https://www.youtube.com/watch?v=${key}`;
+        } else if (site === 'Vimeo') {
+            return `https://vimeo.com/${key}`;
+        } else {
+            // Handle other video hosting sites or unknown sites
+            return null;
+        }
+    };
+
+    const fetchVideoTrailers = async () => {
+        try {
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer YOUR_TMDB_API_KEY',
+                }
+            };
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options);
+            const data = await response.json();
+
+            // Filter out videos with type 'Trailer'
+            const trailerVideos = data.results.filter(video => video.type === 'Trailer');
+
+            setVideoTrailers(trailerVideos);
+        } catch (error) {
+            console.error("Failed to fetch video trailers:", error);
+        }
+    };
+
 
     useEffect(() => {
         document.title = `Single Info | ${appTitle}`;
@@ -99,6 +136,18 @@ function PageSingle() {
                                 ))}
                             </div>
                         </div>
+                    )}
+                    {videoTrailers.length > 0 && (
+                        <div className="video-trailers">
+                        <h3 className="text-xl font-bold">Video Trailers</h3>
+                        <ul>
+                            {videoTrailers.map(trailer => (
+                                <li key={trailer.id}>
+                                    <a href={constructVideoUrl(trailer.site, trailer.key)} target="_blank" rel="noopener noreferrer">{trailer.name}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                     )}
                 </div>
             )}
