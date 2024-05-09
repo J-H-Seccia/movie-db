@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
-import MovieDetails from '../components/MovieDetails';
+import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, imageBaseURL } from "../globals/globalVariables";
 import { Link } from 'react-router-dom';
 
 function PageHome() {
     const [movies, setMovies] = useState([]);
-    const [selectedMovie, setSelectedMovie] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("Now Playing");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -40,9 +38,10 @@ function PageHome() {
 
                 const response = await fetch(`${endpoint}?api_key=${apiKey}`);
                 const data = await response.json();
-                if (data.results.length > 0) {
+                if (data.results && data.results.length > 0) {
                     setMovies(data.results);
-                    setSelectedMovie(data.results[0].id);
+                } else {
+                    setError("No movies found for the selected category.");
                 }
             } catch (error) {
                 setError("Failed to fetch movies. Please try again later.");
@@ -62,46 +61,34 @@ function PageHome() {
             <h1 className="text-3xl font-bold underline">Home Page</h1>
 
             <div className="category-tabs">
-                <button
-                    className={selectedCategory === "Now Playing" ? "active" : ""}
-                    onClick={() => handleChangeCategory("Now Playing")}
-                >
-                    Now Playing
-                </button>
-                <button
-                    className={selectedCategory === "Popular" ? "active" : ""}
-                    onClick={() => handleChangeCategory("Popular")}
-                >
-                    Popular
-                </button>
-                <button
-                    className={selectedCategory === "Top Rated" ? "active" : ""}
-                    onClick={() => handleChangeCategory("Top Rated")}
-                >
-                    Top Rated
-                </button>
-                <button
-                    className={selectedCategory === "Upcoming" ? "active" : ""}
-                    onClick={() => handleChangeCategory("Upcoming")}
-                >
-                    Upcoming
-                </button>
-            </div>
-
-            <div className="grid grid-cols-3 gap-4">
-                {movies.map(movie => (
-                    <div key={movie.id} className="movie">
-                        <img
-                            src={`${imageBaseURL}w500${movie.poster_path}`}
-                            alt={movie.title}
-                            className={`${selectedMovie === movie.id ? "selected" : ""} cursor-pointer`}
-                            onClick={() => setSelectedMovie(movie)}
-                        />
-                        {/* Include MovieDetails component */}
-                        <MovieDetails movie={movie} />
-                    </div>
+                {["Now Playing", "Popular", "Top Rated", "Upcoming"].map(category => (
+                    <button
+                        key={category}
+                        className={selectedCategory === category ? "active" : ""}
+                        onClick={() => handleChangeCategory(category)}
+                    >
+                        {category}
+                    </button>
                 ))}
             </div>
+
+            {loading ? (
+                <p>Loading...</p>
+            ) : error ? (
+                <p>{error}</p>
+            ) : (
+                <div className="grid grid-cols-3 gap-4">
+                    {movies.map(movie => (
+                        <Link key={movie.id} to={`/single/${movie.id}`}>
+                            <img
+                                src={`${imageBaseURL}w500${movie.poster_path}`}
+                                alt={movie.title}
+                                className="cursor-pointer"
+                            />
+                        </Link>
+                    ))}
+                </div>
+            )}
         </>
     );
 }
