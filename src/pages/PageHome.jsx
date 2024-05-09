@@ -3,6 +3,7 @@ import {SwipeCarousel} from "../components/SwipeCarousel";
 import { appTitle, apiRAT, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
 import { shuffleArray } from "../utils/utilityFunctions";
 import CategoryTabs from "../components/CategoryTabs";
+import MovieCardCarousel from "../components/MovieCardCarousel"
 
 const CATEGORIES = {
     nowPlaying: 'Now Playing',
@@ -14,9 +15,10 @@ const CATEGORIES = {
 function PageHome() {
     const [movies, setMovies] = useState([]);
     const [selectedMovie, setSelectedMovie] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState(CATEGORIES.nowPlaying);
     const [popularCarousel, setPopularCarousel] = useState(null);
     const [backdropImgs, setBackdropImgs] = useState(null);
+    const [cardCarousel, setCardCarousel] = useState(null);
 
     //Page Title
     useEffect( () => {
@@ -48,6 +50,7 @@ function PageHome() {
             const data = await response.json();
             if (data.results.length > 0) {
                 setMovies(data.results);
+                console.log({movies})
                 setSelectedMovie(data.results[0].id);
             }
         };
@@ -70,7 +73,7 @@ function PageHome() {
             if (data.results.length > 0) {
                        // Shuffle the array of results
                         const shuffledResults = shuffleArray(data.results);
-                        // Select the first 5 entries
+                        // Select the first 6 entries
                         const selectedResults = shuffledResults.slice(0, 6);
                         // Set the popular carousel with the selected results
                         setPopularCarousel(selectedResults);
@@ -80,25 +83,23 @@ function PageHome() {
         fetchPopularCarousel();
     }, [])
 
-    
+
     //Build paths for backdrop images
     useEffect(() => {
         function buildBackdropPaths() {
-            if (popularCarousel ) {
+            if (popularCarousel) {
                 const backdropPaths = popularCarousel.map(movie => movie.backdrop_path);
                 const baseImgUrl = "http://image.tmdb.org/t/p/w1280"
                 const fullImgUrls = [];
                 backdropPaths.forEach(path => {
                     fullImgUrls.push(`${baseImgUrl}${path}`);
                 });
-                console.log(fullImgUrls);
                 setBackdropImgs(fullImgUrls);
             }
         }
     
         buildBackdropPaths();
     }, [popularCarousel]);
-
     
     
     return (
@@ -109,11 +110,15 @@ function PageHome() {
 
             <SwipeCarousel backdropImgs={backdropImgs} movieInfo={popularCarousel}/>
 
-            <div className="category-tabs ">
+            <div className="category-tabs">
                 <CategoryTabs handleChangeCategory={handleChangeCategory}/>
             </div>
 
-            <div className="grid grid-cols-3 gap-4">
+            <div className="card-carousel">
+                <MovieCardCarousel movieInfo={movies} selectedCategory={selectedCategory}/>
+            </div>
+
+            {/* <div className="grid grid-cols-3 gap-4">
                 {movies.map(movie => (
                     <img 
                     key={movie.id} 
@@ -123,7 +128,7 @@ function PageHome() {
                     onClick={() => handleGetMovie(movie.id)} 
                     />
                 ))}
-            </div>
+            </div> */}
         </div>
 
         
