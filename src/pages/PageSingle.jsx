@@ -120,6 +120,20 @@ function PageSingle() {
                     <p>Release Date: {movieDetails.release_date}</p>
                     <p>Rating: {movieDetails.vote_average}</p>
                     <p>Genres: {movieDetails.genres}</p>
+
+                    {videoTrailers.length > 0 && (
+                        <div className="video-trailers">
+                        <h3 className="text-xl font-bold">Video Trailers</h3>
+                        <ul>
+                            {videoTrailers.map(trailer => (
+                                <li key={trailer.id}>
+                                    <a href={constructVideoUrl(trailer.site, trailer.key)} target="_blank" rel="noopener noreferrer">{trailer.name}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    )}
+
                     {movieDetails.cast && movieDetails.cast.length > 0 && (
                         <div className="cast-images">
                             <h3 className="text-xl font-bold">Cast</h3>
@@ -136,18 +150,6 @@ function PageSingle() {
                                 ))}
                             </div>
                         </div>
-                    )}
-                    {videoTrailers.length > 0 && (
-                        <div className="video-trailers">
-                        <h3 className="text-xl font-bold">Video Trailers</h3>
-                        <ul>
-                            {videoTrailers.map(trailer => (
-                                <li key={trailer.id}>
-                                    <a href={constructVideoUrl(trailer.site, trailer.key)} target="_blank" rel="noopener noreferrer">{trailer.name}</a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
                     )}
                 </div>
             )}
