@@ -1,9 +1,4 @@
-import React from 'react';
-import AppRouter from './routers/AppRouter';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import store from '../src/store/store'
-
+import AppRouter from "./routers/AppRouter"
 
 function App() {
   return (
