@@ -118,17 +118,6 @@ function PageHome() {
                 <MovieCardCarousel movieInfo={movies} selectedCategory={selectedCategory}/>
             </div>
 
-            {/* <div className="grid grid-cols-3 gap-4">
-                {movies.map(movie => (
-                    <img 
-                    key={movie.id} 
-                    src={`${imageBaseURL}w500${movie.poster_path}`} 
-                    alt={movie.title} 
-                    className={`${selectedMovie === movie.id ? "selected" : ""} cursor-pointer`}
-                    onClick={() => handleGetMovie(movie.id)} 
-                    />
-                ))}
-            </div> */}
         </div>
 
         
