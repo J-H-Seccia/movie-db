@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, imageBaseURL } from "../globals/globalVariables";
+import FavButton from '../components/FavsButton';
 import { Link } from 'react-router-dom';
 
 function PageHome() {
@@ -78,16 +79,15 @@ function PageHome() {
                 <p>{error}</p>
             ) : (
                 <div className="grid grid-cols-3 gap-4">
-                    {movies.map(movie => (
-                        <Link key={movie.id} to={`/single/${movie.id}`}>
-                            <img
-                                src={`${imageBaseURL}w500${movie.poster_path}`}
-                                alt={movie.title}
-                                className="cursor-pointer"
-                            />
+                {movies.map(movie => (
+                    <div key={movie.id}>
+                        <Link to={`/single/${movie.id}`}>
+                            <img src={`${imageBaseURL}w500${movie.poster_path}`} alt={movie.title} className="cursor-pointer" />
                         </Link>
-                    ))}
-                </div>
+                        <FavButton movieObj={movie} />
+                    </div>
+                ))}
+            </div>
             )}
         </>
     );
