@@ -2,12 +2,24 @@ import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
 import { Link } from 'react-router-dom';
 import {Tabs, Tab, TabList, TabPanel} from 'react-tabs';
+// import {FavButton} from '../components/FavButton';
+import { useSelector } from "react-redux";
+import MovieCard from '../components/MovieCard';
+import isFav from '../utilities/isFav';
+
+
 
 function PageHome() {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState("Now Playing"); // Initial selected category
+
+    const favs = useSelector((state) => {
+        console.log(state);
+        return state.favs.items;
+    });
+    console.log(favs);
 
     // Page Title
     useEffect(() => {
@@ -57,7 +69,8 @@ function PageHome() {
     const handleChangeCategory = (category) => {
         setSelectedCategory(category);
     };
-    
+
+
 
     return (
         <>
@@ -82,13 +95,13 @@ function PageHome() {
             ) : (
                 <div className="grid grid-cols-3 gap-4">
                     {movies.map(movie => (
-                        <Link key={movie.id} to={`/single/${movie.id}`}>
-                            <img
-                                src={`${imageBaseURL}w500${movie.poster_path}`}
-                                alt={movie.title}
-                                className="cursor-pointer"
+                        
+                            <MovieCard 
+                            key={movie.id}
+                            movie={movie} 
+                            isFav={isFav(favs, null, movie.id)}
                             />
-                        </Link>
+
                     ))}
                 </div>
             )}

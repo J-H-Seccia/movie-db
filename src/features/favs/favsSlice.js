@@ -3,6 +3,7 @@ import { appStorageName } from '../../globals/globalVariables'
 
 function getFavsFromLocalStorage(){
     const favs = localStorage.getItem(appStorageName);
+    console.log(favs);
     if(favs !== null){
         return {
             items: JSON.parse(favs)
