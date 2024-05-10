@@ -3,7 +3,7 @@ import {SwipeCarousel} from "../components/SwipeCarousel";
 import { appTitle, apiRAT, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
 import { shuffleArray } from "../utils/utilityFunctions";
 import CategoryTabs from "../components/CategoryTabs";
-import MovieCardCarousel from "../components/MovieCardCarousel"
+import MovieCardCarousel from "../components/MovieCardCarousel";
 
 const CATEGORIES = {
     nowPlaying: 'Now Playing',
