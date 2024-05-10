@@ -63,45 +63,35 @@ function PageHome() {
         <>
             <h1 className="text-3xl font-bold underline">Home Page</h1>
 
-            <div className="movie-tabs m-4">
-                <Tabs>
-                    <TabList className={'flex'}>
-                        {["Now Playing", "Popular", "Top Rated", "Upcoming"].map((category) => (
-                           <Tab key={category} 
-                                onClick={() => handleChangeCategory(category)}
-                                className={`cursor-pointer px-3 py-1 ${selectedCategory === category ? "bg-blue-600 text-white" : "bg-gray-200"}`}
-                            >
-                           {category}
-                           </Tab>
-                        ))}
-                    </TabList>
-                    
-                    {["Now Playing", "Popular", "Top Rated", "Upcoming"].map((category) => (
-                        <TabPanel key={category}>
-                            {loading ? (
-                                <p>Loading...</p>
-                            ) : error ? (
-                                <p>{error}</p>
-                            ) : (
-                                selectedCategory === category && (
-                                    <div className="grid grid-cols-3 gap-4 bg-blue-600 p-4">
-                                        {movies.map(movie => (
-                                            <Link key={movie.id} 
-                                                  to={`/single/${movie.id}`}>
-                                                <img
-                                                    src={`${imageBaseURL}w500${movie.poster_path}`}
-                                                    alt={movie.title}
-                                                    className="cursor-pointer"
-                                                />
-                                            </Link>
-                                        ))}
-                                    </div>
-                                )
-                            )}
-                        </TabPanel>
-                    ))}
-                </Tabs>
+            <div className="category-tabs">
+                {["Now Playing", "Popular", "Top Rated", "Upcoming"].map(category => (
+                    <button
+                        key={category}
+                        className={selectedCategory === category ? "active" : ""}
+                        onClick={() => handleChangeCategory(category)}
+                    >
+                        {category}
+                    </button>
+                ))}
             </div>
+
+            {loading ? (
+                <p>Loading...</p>
+            ) : error ? (
+                <p>{error}</p>
+            ) : (
+                <div className="grid grid-cols-3 gap-4">
+                    {movies.map(movie => (
+                        <Link key={movie.id} to={`/single/${movie.id}`}>
+                            <img
+                                src={`${imageBaseURL}w500${movie.poster_path}`}
+                                alt={movie.title}
+                                className="cursor-pointer"
+                            />
+                        </Link>
+                    ))}
+                </div>
+            )}
         </>
     );
 }

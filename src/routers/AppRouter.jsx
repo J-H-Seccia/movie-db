@@ -15,7 +15,7 @@ import Footer from '../components/Footer';
 
 
 function AppRouter() {
-    return ( 
+    return (
         <BrowserRouter>
 
             <div className="wrapper">

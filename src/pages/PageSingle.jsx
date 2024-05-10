@@ -7,6 +7,7 @@ function PageSingle() {
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [videoTrailers, setVideoTrailers] = useState([]);
 
     // Fetch movie details using the ID from the URL
     useEffect(() => {
@@ -40,6 +41,9 @@ function PageSingle() {
                     genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "",
                     cast: castWithImages,
                 });
+
+                await fetchVideoTrailers();
+
             } catch (error) {
                 setError("Failed to fetch movie details. Please try again later.");
             } finally {
@@ -49,6 +53,39 @@ function PageSingle() {
 
         fetchSingleMovie();
     }, [id]);
+
+    const constructVideoUrl = (site, key) => {
+        if (site === 'YouTube') {
+            return `https://www.youtube.com/watch?v=${key}`;
+        } else if (site === 'Vimeo') {
+            return `https://vimeo.com/${key}`;
+        } else {
+            // Handle other video hosting sites or unknown sites
+            return null;
+        }
+    };
+
+    const fetchVideoTrailers = async () => {
+        try {
+            const options = {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OWJiYTJmNTQ2N2U3Yzk1NmVjYWFhN2FmMWNjMjFhNiIsInN1YiI6IjY2MzUyN2U0OTlkNWMzMDEyNjU3NzhiMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._QXgq2rIB6fX_fni3NVUlSbASV-S6jFomm42-d2T52c',
+                }
+            };
+            const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options);
+            const data = await response.json();
+
+            // Filter out videos with type 'Trailer'
+            const trailerVideos = data.results.filter(video => video.type === 'Trailer');
+
+            setVideoTrailers(trailerVideos);
+        } catch (error) {
+            console.error("Failed to fetch video trailers:", error);
+        }
+    };
+
 
     useEffect(() => {
         document.title = `Single Info | ${appTitle}`;
@@ -84,16 +121,30 @@ function PageSingle() {
                     <p>Release Date: {movieDetails.release_date}</p>
                     <p>Rating: {movieDetails.vote_average}</p>
                     <p>Genres: {movieDetails.genres}</p>
+
+                    {videoTrailers.length > 0 && (
+                        <div className="video-trailers">
+                        <h3 className="text-xl font-bold">Video Trailers</h3>
+                        <ul>
+                            {videoTrailers.map(trailer => (
+                                <li key={trailer.id}>
+                                    <a href={constructVideoUrl(trailer.site, trailer.key)} target="_blank" rel="noopener noreferrer">{trailer.name}</a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    )}
+
                     {movieDetails.cast && movieDetails.cast.length > 0 && (
                         <div className="cast-images">
                             <h3 className="text-xl font-bold">Cast</h3>
                             <div className="grid grid-cols-3 gap-4">
                                 {movieDetails.cast.slice(0, 6).map(actor => (
                                     <div key={actor.name} className="flex flex-col items-center">
-                                        <img 
-                                            src={actor.image} 
-                                            alt={actor.name} 
-                                            className="w-24 h-24 w-16 rounded mb-2" 
+                                        <img
+                                            src={actor.image}
+                                            alt={actor.name}
+                                            className="w-24 h-24 w-16 rounded mb-2"
                                         />
                                         <p className="text-center">{actor.name}</p>
                                     </div>

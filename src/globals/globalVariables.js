@@ -8,3 +8,7 @@ export const endPointTopRated = "https://api.themoviedb.org/3/movie/top_rated";
 export const endPointUpcoming = "https://api.themoviedb.org/3/movie/upcoming";
 export const imageBaseURL = "https://image.tmdb.org/t/p/"
 export const endPointMovieCredits = "https://api.themoviedb.org/3/movie/";
+<<<<<<< HEAD
+=======
+export const appStorageName = 'movie-app-favs';
+>>>>>>> pageSingle
