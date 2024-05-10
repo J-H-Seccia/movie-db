@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointPlayingNow, endPointPopular, endPointUpcoming, endPointTopRated, endPointSearch, imageBaseURL } from "../globals/globalVariables";
 import { Link } from 'react-router-dom';
-import {Tabs, Tab, TabList, TabPanel} from 'react-tabs';
+// import {Tabs, Tab, TabList, TabPanel} from 'react-tabs';
 // import {FavButton} from '../components/FavButton';
 import { useSelector } from "react-redux";
 import MovieCard from '../components/MovieCard';
@@ -95,10 +95,10 @@ function PageHome() {
             ) : (
                 <div className="grid grid-cols-3 gap-4">
                     {movies.map(movie => (
-                        
-                            <MovieCard 
+
+                            <MovieCard
                             key={movie.id}
-                            movie={movie} 
+                            movie={movie}
                             isFav={isFav(favs, null, movie.id)}
                             />
 

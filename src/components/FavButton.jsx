@@ -1,4 +1,4 @@
-export const FavButton = ({ movieObj, remove, handleFavClick }) => {
+export const FavButton = ({ movieObj, remove = false, handleFavClick }) => {
 
     function handleAddFav(){
         handleFavClick(true, movieObj);
@@ -10,16 +10,16 @@ export const FavButton = ({ movieObj, remove, handleFavClick }) => {
 
     return (
         <>
-            {remove === false ? 
-            <button onClick={handleAddFav}>Add To Favs</button> : 
+            {remove === false ?
+            <button onClick={handleAddFav}>Add To Favs</button> :
             <button onClick={handleRemoveFav}>Remove From Favs</button>}
         </>
     );
 }
 
-FavButton.defaultProps = {
-    remove: false
-}
+// FavButton.defaultProps = {
+//     remove: false
+// }
 
 
 

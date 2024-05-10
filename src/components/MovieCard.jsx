@@ -24,13 +24,13 @@ function MovieCard({ movie, isFav }) {
         <div>
             <div className="btn-favourite">
                 {isFav ?
-                        <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} /> 
+                        <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
                         :
                         <FavButton movieObj={movie} handleFavClick={handleFavClick} />
                 }
-                
+
             </div>
-            
+
             <Link to={`/single/${movie.id}`} className="more-info-button">
                 <div className="movie-details">
 
@@ -42,7 +42,7 @@ function MovieCard({ movie, isFav }) {
                 </div>
             </Link>
         </div>
-        
+
         </>
     );
 }
