@@ -1,9 +1,12 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import MovieCard from "./MovieCard";
 import useMeasure from "react-use-measure";
+import {imageBaseURL} from '../globals/globalVariables.js';
+import isFav from '../utils/isFav';
 
-const IMGBASEURL = "http://image.tmdb.org/t/p/w1280";
+const IMGBASEURL = "http://image.tmdb.org/t/p/";
 const CARD_WIDTH = 500;
 const CARD_HEIGHT = 500;
 const MARGIN = 20;
@@ -14,7 +17,7 @@ const BREAKPOINTS = {
   lg: 1024,
 };
 
-const MovieCardCarousel = ({movieInfo, selectedCategory}) => {
+const MovieCardCarousel = ({movieInfo, selectedCategory, favs}) => {
   const [ref, { width }] = useMeasure();
   const [offset, setOffset] = useState(-850);
 
@@ -55,7 +58,7 @@ const MovieCardCarousel = ({movieInfo, selectedCategory}) => {
             className="flex justify-start"
           >
             {movieInfo.map((movie) => {
-              return <Card key={movie.id} {...movie} />;
+              return <MovieCard key={movie.id} movie={movie} isFav={isFav(favs, null, movie.id)}/>;
             })}
           </motion.div>
         </div>
@@ -86,31 +89,7 @@ const MovieCardCarousel = ({movieInfo, selectedCategory}) => {
       </div>
     </section>
   );
-};
-
-const Card = ({ poster_path, vote_average, title, overview }) => {
-  return (
-    <div
-      className="relative shrink-0 cursor-pointer rounded-2xl bg-white shadow-md transition-all hover:scale-[1.015] hover:shadow-xl"
-      style={{
-        width: CARD_WIDTH,
-        height: CARD_HEIGHT,
-        marginRight: MARGIN,
-        backgroundImage: `url(${IMGBASEURL}${poster_path})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
-      <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter] hover:backdrop-blur-sm">
-        <span className="text-m font-semibold uppercase text-violet-300">
-          {vote_average}
-        </span>
-        <p className="my-2 text-3xl font-bold">{title}</p>
-        <p className="text-lg text-slate-300">{overview}</p>
-      </div>
-    </div>
-  );
-};
+}
 
 export default MovieCardCarousel;
 

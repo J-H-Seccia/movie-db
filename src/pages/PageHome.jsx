@@ -4,6 +4,7 @@ import { appTitle, apiRAT, apiKey, endPointPlayingNow, endPointPopular, endPoint
 import { shuffleArray } from "../utils/utilityFunctions";
 import CategoryTabs from "../components/CategoryTabs";
 import MovieCardCarousel from "../components/MovieCardCarousel";
+import { useSelector } from "react-redux";
 
 const CATEGORIES = {
     nowPlaying: 'Now Playing',
@@ -18,43 +19,58 @@ function PageHome() {
     const [selectedCategory, setSelectedCategory] = useState(CATEGORIES.nowPlaying);
     const [popularCarousel, setPopularCarousel] = useState(null);
     const [backdropImgs, setBackdropImgs] = useState(null);
-    const [cardCarousel, setCardCarousel] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const favs = useSelector((state) => {
+        return state.favs.items;
+    });
+
 
     //Page Title
     useEffect( () => {
         document.title = `Home | ${appTitle}`;
     }, []);
 
-    useEffect(() => {
-        // Fetch movies based on the selected category
-        const fetchMovies = async () => {
-            let endpoint;
-            switch(selectedCategory) {
-                case CATEGORIES.nowPlaying:
-                    endpoint = endPointPlayingNow;
-                    break;
-                case CATEGORIES.popular:
-                    endpoint = endPointPopular;
-                    break;
-                case CATEGORIES.topRated:
-                    endpoint = endPointTopRated;
-                    break;
-                case CATEGORIES.upcoming:
-                    endpoint = endPointUpcoming;
-                    break;
-                default:
-                    endpoint = endPointPlayingNow;
-            }
+        useEffect(() => {
+        // Function to fetch movies based on the selected category
+        const fetchMoviesByCategory = async () => {
+            setLoading(true);
+            try {
+                let endpoint;
+                switch(selectedCategory) {
+                    case CATEGORIES.nowPlaying:
+                        endpoint = endPointPlayingNow;
+                        break;
+                    case CATEGORIES.popular:
+                        endpoint = endPointPopular;
+                        break;
+                    case CATEGORIES.topRated:
+                        endpoint = endPointTopRated;
+                        break;
+                    case CATEGORIES.upcoming:
+                        endpoint = endPointUpcoming;
+                        break;
+                    default:
+                        endpoint = endPointPlayingNow;
+                }
 
-            const response = await fetch(`${endpoint}?api_key=${apiKey}`);
-            const data = await response.json();
-            if (data.results.length > 0) {
-                setMovies(data.results);
-                console.log({movies})
-                setSelectedMovie(data.results[0].id);
+                const response = await fetch(`${endpoint}?api_key=${apiKey}`);
+                const data = await response.json();
+                if (data.results && data.results.length > 0) {
+                    setMovies(data.results);
+                    setSelectedMovie(data.results[0].id);
+                } else {
+                    setError("No movies found for the selected category.");
+                }
+            } catch (error) {
+                setError("Failed to fetch movies. Please try again later.");
+            } finally {
+                setLoading(false);
             }
         };
-        fetchMovies();
+
+        fetchMoviesByCategory(); // Call the function to fetch movies initially
     }, [selectedCategory]);
 
 
@@ -84,7 +100,7 @@ function PageHome() {
     }, [])
 
 
-    //Build paths for backdrop images
+    //Build paths for backdrop images for hero carousel
     useEffect(() => {
         function buildBackdropPaths() {
             if (popularCarousel) {
@@ -115,7 +131,11 @@ function PageHome() {
             </div>
 
             <div className="card-carousel">
-                <MovieCardCarousel movieInfo={movies} selectedCategory={selectedCategory}/>
+                <MovieCardCarousel 
+                movieInfo={movies} 
+                selectedCategory={selectedCategory}
+                favs={favs}
+                />
             </div>
 
         </div>
