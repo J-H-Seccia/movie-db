@@ -3,6 +3,8 @@ import { appTitle, apiKey, listOfGenres, movieGenreBaseURL, movieGenreBaseURLAft
 // import { Link } from "react-router-dom";
 // import { FavButton } from "../components/FavButton";
 import MovieCardGrid from '../components/MovieCardGrid';
+import MovieCard from "../components/MovieCard";
+import { useSelector } from "react-redux";
 
 function PageMovies() {
     const [movies, setMovies] = useState([]);
@@ -12,6 +14,9 @@ function PageMovies() {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const favs = useSelector((state) => {
+        return state.favs.items;
+    });
 
     useEffect(() => {
         document.title = `Browse Movies by Genre | ${appTitle}`;
@@ -88,14 +93,7 @@ function PageMovies() {
                     </select>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-4">
-                    {loading && <div>Loading...</div>}
-                    {error && <div>{error}</div>}
-                    {movies.map((movie) => (
-                        // created a moviecardgrid component to display movie cards in grid
-                        <MovieCardGrid key={movie.id} movie={movie} />
-                    ))}
-                </div>
+               <MovieCardGrid movies={movies} favs={favs} />
             </div>
         </div>
     );
