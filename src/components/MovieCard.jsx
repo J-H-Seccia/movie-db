@@ -10,12 +10,15 @@ const CARD_HEIGHT = 420;
 const MARGIN = 20;
 
 function MovieCard({ movie, isFav }) {
+    //add a state to determine whether the mouse if within the movie poster when the screen is larger than 1280 pixels
     const [isHovered, setIsHovered] = useState(false);
+    //add a state for mobile and desktop devices. if the movie information is visible, isInfoVisible is true, if the movie information is not visible, isInfoVisible is set to false.
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const dispatch = useDispatch();
     const cardRef = useRef(null);
 
     useEffect(() => {
+        //if the user clicks outside the most recently clicked poster, the movie information for that poster should be hidden
         const handleClickOutside = (event) => {
             if (cardRef.current && !cardRef.current.contains(event.target)) {
                 setIsInfoVisible(false);
