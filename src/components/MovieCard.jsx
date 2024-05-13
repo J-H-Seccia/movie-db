@@ -5,8 +5,8 @@ import { useDispatch } from 'react-redux';
 import { addFav, deleteFav } from '../features/favs/favsSlice';
 import {FavButton} from './FavButton';
 
-const CARD_WIDTH = 500;
-const CARD_HEIGHT = 500;
+const CARD_WIDTH = 280;
+const CARD_HEIGHT = 420;
 const MARGIN = 20;
 
 function MovieCard({ movie, isFav }) {
@@ -21,6 +21,14 @@ function MovieCard({ movie, isFav }) {
         }else{
             dispatch(deleteFav(movieObj));
         }
+    }
+
+    // truncate the overviews to 100 characters or less
+    function truncateOverview(overview) {
+        if (overview.length > 100) {
+            return overview.substring(0, 100) + '...';
+        }
+        return overview;
     }
 
     return (
@@ -48,7 +56,7 @@ function MovieCard({ movie, isFav }) {
                         <Link to={`/movie/${movie.id}`}>
                             <p className="my-2 text-3xl font-bold">{movie.title}</p>
                         </Link>
-                        <p className="text-lg text-slate-300">{movie.overview}</p>
+                        <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
                     </>
                 )}
                 {isFav ?
