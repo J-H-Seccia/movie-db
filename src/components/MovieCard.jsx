@@ -37,6 +37,9 @@ function MovieCard({ movie, isFav }) {
         }
     }
 
+
+    //if there is no overview, return a "Details not provided" message
+    //if there is an overview, make sure that it is truncated to 100 characters
     function truncateOverview(overview) {
         if (!overview) {
             return "Details Not Provided";
@@ -46,8 +49,11 @@ function MovieCard({ movie, isFav }) {
         return overview;
     }
 
+    //sets a media query at 1280 pixels so that the hover effect can be applied for larger screens and the click effect applied for mobile and tablet devices
     const setMediaQueryForLarge = () => window.innerWidth >= 1280;
 
+
+    // This line toggles the value of the isInfoVisible state using the setIsInfoVisible function. If isInfoVisible is true, it becomes false, and vice versa.
     const toggleInfoVisibility = () => {
         if (!setMediaQueryForLarge()) {
             setIsInfoVisible(!isInfoVisible);
@@ -66,10 +72,14 @@ function MovieCard({ movie, isFav }) {
                 backgroundPosition: "center",
                 backgroundSize: "cover",
             }}
+            //set the hover state to true if the mouse enters the poster
             onMouseEnter={() => { if (setMediaQueryForLarge()) setIsHovered(true); }}
+            //set the hover state to false if the mouse leaves the poster
             onMouseLeave={() => { if (setMediaQueryForLarge()) setIsHovered(false); }}
+            //call the toggleInfoVisibility function, which will display or hide the movie information when the poster is clicked on mobile or tablet devices
             onClick={toggleInfoVisibility}
         >
+            {/* if the hover state is set to true, display the movie information on top of the movie's poster */}
             {isHovered && (
                 <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter] hover:backdrop-blur-sm">
                     <span className="text-m font-semibold uppercase text-violet-300">Rating:
@@ -81,6 +91,7 @@ function MovieCard({ movie, isFav }) {
                     <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
                 </div>
             )}
+            {/* for mobile and tables devices, display the movie information if not already visible */}
             {isInfoVisible && !setMediaQueryForLarge() && (
                 <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter]">
                     <span className="text-m font-semibold uppercase text-violet-300">Rating:
