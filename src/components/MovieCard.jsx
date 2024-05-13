@@ -23,9 +23,10 @@ function MovieCard({ movie, isFav }) {
         }
     }
 
-    // truncate the overviews to 100 characters or less
     function truncateOverview(overview) {
-        if (overview.length > 100) {
+        if (!overview) {
+            return "Details Not Provided";
+        } else if (overview.length > 100) {
             return overview.substring(0, 100) + '...';
         }
         return overview;
@@ -51,7 +52,7 @@ function MovieCard({ movie, isFav }) {
                 {isHovered && (
                     <>
                         <span className="text-m font-semibold uppercase text-violet-300">Rating:
-                            {movie.vote_average.toFixed(1)}
+                        {movie.vote_average.toFixed(1)}
                         </span>
                         <Link to={`/movie/${movie.id}`}>
                             <p className="my-2 text-3xl font-bold">{movie.title}</p>
