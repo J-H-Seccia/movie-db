@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {imageBaseURL} from '../globals/globalVariables.js';
 import { useDispatch } from 'react-redux';
@@ -10,6 +10,7 @@ const CARD_HEIGHT = 500;
 const MARGIN = 20;
 
 function MovieCard({ movie, isFav }) {
+    const [isHovered, setIsHovered] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -23,8 +24,7 @@ function MovieCard({ movie, isFav }) {
     }
 
     return (
-        
-            <div
+        <div
             className="relative shrink-0 cursor-pointer rounded-2xl bg-white shadow-md transition-all hover:scale-[1.015] hover:shadow-xl"
             style={{
                 width: CARD_WIDTH,
@@ -34,21 +34,31 @@ function MovieCard({ movie, isFav }) {
                 backgroundPosition: "center",
                 backgroundSize: "cover",
             }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
+            <div
+                className={`absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter] ${isHovered ? 'hover:backdrop-blur-sm' : ''}`}
             >
-                <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter] hover:backdrop-blur-sm">
-                    <span className="text-m font-semibold uppercase text-violet-300">
-                    {movie.vote_average.toFixed(1)}
-                    </span>
-                    <Link to={`/movie/${movie.id}`}><p className="my-2 text-3xl font-bold">{movie.title}</p></Link>
-                    <p className="text-lg text-slate-300">{movie.overview}</p>
-                    {isFav ?
-                                <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
-                                :
-                                <FavButton movieObj={movie} handleFavClick={handleFavClick} />
-                        }
-                </div>
+                {isHovered && (
+                    <>
+                        <span className="text-m font-semibold uppercase text-violet-300">
+                            {movie.vote_average.toFixed(1)}
+                        </span>
+                        <Link to={`/movie/${movie.id}`}>
+                            <p className="my-2 text-3xl font-bold">{movie.title}</p>
+                        </Link>
+                        <p className="text-lg text-slate-300">{movie.overview}</p>
+                    </>
+                )}
+                {isFav ?
+                    <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
+                    :
+                    <FavButton movieObj={movie} handleFavClick={handleFavClick} />
+                }
             </div>
-      );
+        </div>
+    );
 }
 
 export default MovieCard;
