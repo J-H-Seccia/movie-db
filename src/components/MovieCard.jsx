@@ -64,53 +64,58 @@ function MovieCard({ movie, isFav }) {
     };
 
     return (
-        <div
-            ref={cardRef}
-            className="relative shrink-0 cursor-pointer rounded-2xl bg-white shadow-md transition-all hover:scale-[1.015] hover:shadow-xl"
-            style={{
-                width: CARD_WIDTH,
-                height: CARD_HEIGHT,
-                marginRight: MARGIN,
-                backgroundImage: `url(${imageBaseURL}w1280${movie.poster_path})`,
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-            }}
-            //set the hover state to true if the mouse enters the poster
-            onMouseEnter={() => { if (setMediaQueryForLarge()) setIsHovered(true); }}
-            //set the hover state to false if the mouse leaves the poster
-            onMouseLeave={() => { if (setMediaQueryForLarge()) setIsHovered(false); }}
-            //call the toggleInfoVisibility function, which will display or hide the movie information when the poster is clicked on mobile or tablet devices
-            onClick={toggleInfoVisibility}
-        >
-            {/* if the hover state is set to true, display the movie information on top of the movie's poster */}
-            {isHovered && (
-                <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter] hover:backdrop-blur-sm">
-                    <span className="text-m font-semibold uppercase text-violet-300">Rating:
-                        {movie.vote_average.toFixed(1)}
-                    </span>
-                    <Link to={`/movie/${movie.id}`}>
-                        <p className="my-2 text-3xl font-bold">{movie.title}</p>
-                    </Link>
-                    <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
-                </div>
-            )}
-            {/* for mobile and tables devices, display the movie information if not already visible */}
-            {isInfoVisible && !setMediaQueryForLarge() && (
-                <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter]">
-                    <span className="text-m font-semibold uppercase text-violet-300">Rating:
-                        {movie.vote_average.toFixed(1)}
-                    </span>
-                    <Link to={`/movie/${movie.id}`}>
-                        <p className="my-2 text-3xl font-bold">{movie.title}</p>
-                    </Link>
-                    <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
-                </div>
-            )}
-            {isFav ?
-                <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
-                :
-                <FavButton movieObj={movie} handleFavClick={handleFavClick} />
-            }
+        <div>
+            <div
+                ref={cardRef}
+                className="relative shrink-0 cursor-pointer rounded-2xl bg-white shadow-md transition-all hover:scale-[1.015] hover:shadow-xl"
+                style={{
+                    width: CARD_WIDTH,
+                    height: CARD_HEIGHT,
+                    marginRight: MARGIN,
+                    backgroundImage: `url(${imageBaseURL}w1280${movie.poster_path})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                }}
+                //set the hover state to true if the mouse enters the poster
+                onMouseEnter={() => { if (setMediaQueryForLarge()) setIsHovered(true); }}
+                //set the hover state to false if the mouse leaves the poster
+                onMouseLeave={() => { if (setMediaQueryForLarge()) setIsHovered(false); }}
+                //call the toggleInfoVisibility function, which will display or hide the movie information when the poster is clicked on mobile or tablet devices
+                onClick={toggleInfoVisibility}
+            >
+                {/* if the hover state is set to true, display the movie information on top of the movie's poster */}
+                {isHovered && (
+                    <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter] hover:backdrop-blur-sm">
+                        <span className="text-m font-semibold uppercase text-violet-300">Rating:
+                            {movie.vote_average.toFixed(1)}
+                        </span>
+                        <Link to={`/movie/${movie.id}`}>
+                            <p className="my-2 text-3xl font-bold">{movie.title}</p>
+                        </Link>
+                        <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
+                    </div>
+                )}
+                {/* for mobile and tables devices, display the movie information if not already visible */}
+                {isInfoVisible && !setMediaQueryForLarge() && (
+                    <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white transition-[backdrop-filter]">
+                        <span className="text-m font-semibold uppercase text-violet-300">Rating:
+                            {movie.vote_average.toFixed(1)}
+                        </span>
+                        <Link to={`/movie/${movie.id}`}>
+                            <p className="my-2 text-3xl font-bold">{movie.title}</p>
+                        </Link>
+                        <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
+                    </div>
+                )}
+            </div>
+            <div className="btn-fav absolute text-white">
+                {isFav ?
+                    <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
+                    :
+                    <FavButton movieObj={movie} handleFavClick={handleFavClick} />
+                }
+
+            </div>
         </div>
     );
 }
