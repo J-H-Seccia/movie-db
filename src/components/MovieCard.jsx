@@ -42,7 +42,7 @@ function MovieCard({ movie, isFav }) {
             >
                 {isHovered && (
                     <>
-                        <span className="text-m font-semibold uppercase text-violet-300">
+                        <span className="text-m font-semibold uppercase text-violet-300">Rating:
                             {movie.vote_average.toFixed(1)}
                         </span>
                         <Link to={`/movie/${movie.id}`}>
