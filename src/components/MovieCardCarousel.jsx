@@ -45,11 +45,11 @@ const MovieCardCarousel = ({movieInfo, selectedCategory, favs}) => {
 
   return (
     <section className="bg-slate-100" ref={ref}>
-      <div className="relative overflow-hidden p-4">
+      <div className="relative overflow-hidden p-4 bg-black">
         {/* CARDS */}
         <div className="mx-auto max-w-6xl">
-          <p className="mb-4 text-2xl font-semibold">
-            {selectedCategory} <span className="text-slate-500">Movies</span>
+          <p className="mb-4 text-2xl font-semibold text-white">
+            {selectedCategory} <span className="text-primary-light">Movies</span>
           </p>
           <motion.div
             animate={{

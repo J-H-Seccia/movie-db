@@ -4,8 +4,10 @@ import { appTitle, apiRAT, apiKey, endPointPlayingNow, endPointPopular, endPoint
 import { shuffleArray } from "../utils/utilityFunctions";
 import CategoryTabs from "../components/CategoryTabs";
 import MovieCardCarousel from "../components/MovieCardCarousel";
+import MovieCardOneColumn from "../components/MovieCardOneColumn";
 import { useSelector } from "react-redux";
-import DeviceDetection from "../components/DeviceDetection";
+// import DeviceDetection from "../components/DeviceDetection";
+import useDeviceDetection from "../utils/useDeviceDetection";
 
 const CATEGORIES = {
     nowPlaying: 'Now Playing',
@@ -22,6 +24,7 @@ function PageHome() {
     const [backdropImgs, setBackdropImgs] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const device = useDeviceDetection();
 
     const favs = useSelector((state) => {
         return state.favs.items;
@@ -122,9 +125,9 @@ function PageHome() {
                 Home Page
             </h1>
 
-            <div className="device-detection">
+            {/* <div className="device-detection">
                 <DeviceDetection />
-            </div>
+            </div> */}
 
             <SwipeCarousel backdropImgs={backdropImgs} movieInfo={popularCarousel}/>
 
@@ -132,6 +135,19 @@ function PageHome() {
                 <CategoryTabs handleChangeCategory={handleChangeCategory}/>
             </div>
 
+            {/* if on mobile, just show scrollable cards (flex) and a more info btn that takes you to the single detail page */}
+            {device === 'Mobile' && (
+            <div className="card-flex">
+                <MovieCardOneColumn 
+                movies={movies} 
+                selectedCategory={selectedCategory}
+                favs={favs}
+                />
+            </div>
+            )}
+
+            {/* if on desktop, show card carousel */}
+            {device === 'Desktop' && (
             <div className="card-carousel">
                 <MovieCardCarousel 
                 movieInfo={movies} 
@@ -139,6 +155,8 @@ function PageHome() {
                 favs={favs}
                 />
             </div>
+            )}
+
 
         </div>
 
