@@ -65,6 +65,7 @@ function MovieCard({ movie, isFav }) {
 
     return (
         <div>
+            <Link to={`/movie/${movie.id}`}>
             <div
                 ref={cardRef}
                 className="relative shrink-0 cursor-pointer rounded-2xl bg-white shadow-md transition-all hover:scale-[1.015] hover:shadow-xl"
@@ -89,9 +90,7 @@ function MovieCard({ movie, isFav }) {
                         <span className="text-m font-semibold uppercase text-violet-300">Rating:
                             {movie.vote_average.toFixed(1)}
                         </span>
-                        <Link to={`/movie/${movie.id}`}>
                             <p className="my-2 text-3xl font-bold">{movie.title}</p>
-                        </Link>
                         <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
                     </div>
                 )}
@@ -108,7 +107,9 @@ function MovieCard({ movie, isFav }) {
                     </div>
                 )}
             </div>
-            <div className="btn-fav absolute text-white">
+
+            </Link>
+            <div className="btn-fav absolute z-50 text-white">
                 {isFav ?
                     <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
                     :

@@ -12,7 +12,7 @@ const CategoryTabs = ({handleChangeCategory}) => {
   };
 
   return (
-    <div className="flex justify-center px-4 py-14 bg-neutral-900 items-center gap-2">
+    <div className="flex flex-col justify-center px-4 py-14 bg-neutral-900 items-center gap-2">
       {tabs.map((tab) => (
         <Chip
           text={tab}

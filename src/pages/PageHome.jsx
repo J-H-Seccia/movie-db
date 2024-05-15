@@ -5,6 +5,7 @@ import { shuffleArray } from "../utils/utilityFunctions";
 import CategoryTabs from "../components/CategoryTabs";
 import MovieCardCarousel from "../components/MovieCardCarousel";
 import { useSelector } from "react-redux";
+import DeviceDetection from "../components/DeviceDetection";
 
 const CATEGORIES = {
     nowPlaying: 'Now Playing',
@@ -73,7 +74,6 @@ function PageHome() {
         fetchMoviesByCategory(); // Call the function to fetch movies initially
     }, [selectedCategory]);
 
-
     //Handle function for when a user clicks a different category
     const handleChangeCategory = (category) => {
         setSelectedCategory(category);
@@ -99,7 +99,6 @@ function PageHome() {
         fetchPopularCarousel();
     }, [])
 
-
     //Build paths for backdrop images for hero carousel
     useEffect(() => {
         function buildBackdropPaths() {
@@ -117,12 +116,15 @@ function PageHome() {
         buildBackdropPaths();
     }, [popularCarousel]);
     
-    
     return (
         <div>
             <h1 className="text-3xl font-bold underline">
                 Home Page
             </h1>
+
+            <div className="device-detection">
+                <DeviceDetection />
+            </div>
 
             <SwipeCarousel backdropImgs={backdropImgs} movieInfo={popularCarousel}/>
 

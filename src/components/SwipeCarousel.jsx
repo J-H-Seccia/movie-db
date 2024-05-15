@@ -14,6 +14,7 @@ const SPRING_OPTIONS = {
     damping: 50,
 }
 
+
 export const SwipeCarousel = ({ backdropImgs, movieInfo }) => {
     const [dragging, setDragging] = useState(false);
     const [imgIndex, setImgIndex] = useState(0);
@@ -53,6 +54,8 @@ export const SwipeCarousel = ({ backdropImgs, movieInfo }) => {
         }
     }
 
+
+    
 
     return (
     <div className="relative min-h-screen overflow-hidden bg-neutral-950 py-8">
@@ -101,16 +104,20 @@ const Images = ({ imgIndex, backdropImgs, movieInfo }) => {
                         scale: imgIndex === idx ? 0.95 : 0.85,
                     }}
                     transition={SPRING_OPTIONS}
-                    className="aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
+                    className="aspect-video aspect-w-4 aspect-h-6 w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
                 >
                     {/* Text overlay */}
                     {movieInfo && (
                         <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-black bg-opacity-50 text-white h-1/2">
-                            <h3 className="text-5xl font-bold ">{movieInfo[idx].title}</h3>
-                            <p className="text-3xl py-4">{movieInfo[idx].release_date}</p>
-                            <p className="text-2xl">{movieInfo[idx].overview}</p>
-                            <p className="absolute top-0 right-0 text-5xl px-4">Rating: {movieInfo[idx].vote_average}</p>
-                            <button  className='p-4 rounded-full bg-sky-600 text-2xl w-44 text-center absolute bottom-0 left-0 mx-4 my-2'
+
+                            <div className="title-rating-wrapper flex justify-between">
+                                <h3 className="text-xl font-bold ">{movieInfo[idx].title}</h3>
+                                <p className="text-base px-4">Rating: {movieInfo[idx].vote_average}</p>
+                            </div>
+
+                            <p className="text-base py-4">{movieInfo[idx].release_date}</p>
+                            <p className="text-base">{movieInfo[idx].overview}</p>
+                            <button className='p-4 rounded-full bg-sky-600 text-xl w-44 text-center absolute bottom-0 left-0 mx-4 my-2'
                                 onClick={() => handleMoreInfo(movieInfo[idx].id)}
                                 >More Info</button>
                         </div>
