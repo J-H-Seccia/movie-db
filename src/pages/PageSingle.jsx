@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { appTitle, apiKey, endPointSearch, endPointMovieCredits } from "../globals/globalVariables";
+import { appTitle, apiKey, endPointSearch, endPointMovieCredits,imageBaseURL } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
 
 function PageSingle() {
@@ -47,6 +47,7 @@ function PageSingle() {
                     vote_average: data.vote_average,
                     genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "",
                     cast: castWithImages,
+                    posterPath: data.poster_path,
                 });
 
                 await fetchVideoTrailers();
@@ -113,15 +114,16 @@ function PageSingle() {
 
     return (
         <>
-            <h1 className="text-3xl font-bold underline">Single Info</h1>
+  <h1 className="text-3xl font-bold underline"> {movieDetails.title}</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : error ? (
                 <p>{error}</p>
             ) : (
-                <div className="movie-details">
-                    <h2>Movie Details</h2>
-                    <p>Title: {movieDetails.title}</p>
+                <div className="movie-details bg-customBackground text-foreground mx-10">
+                    <img src={`${imageBaseURL}w1280${movieDetails.posterPath}`} alt={movieDetails.title} style={{ width: '100%', maxWidth: '100%', height: 'auto' }} />
+                    {/* <h2>Movie Details</h2> */}
+                    {/* <h2>Title: {movieDetails.title}</h2> */}
                     <p>Overview: {movieDetails.overview}</p>
                     <p>Release Date: {movieDetails.release_date}</p>
                     <p>Rating: {movieDetails.vote_average}</p>

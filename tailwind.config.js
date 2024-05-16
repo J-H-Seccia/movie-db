@@ -30,7 +30,9 @@ export default {
 
       "success-content": "#c7fec7",
       "warning-content": "#000000",
-      "error-content": "#fec7c7"
+      "error-content": "#fec7c7",
+
+      customBackground: "#171717"
   }},
   },
   plugins: [],
