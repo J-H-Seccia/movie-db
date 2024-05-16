@@ -58,7 +58,7 @@ export const SwipeCarousel = ({ backdropImgs, movieInfo }) => {
     
 
     return (
-    <div className="relative min-h-screen overflow-hidden bg-neutral-950 py-8">
+    <div className="relative overflow-hidden bg-copy py-6">
         <motion.div 
         drag="x"
         dragConstraints={{
@@ -104,7 +104,7 @@ const Images = ({ imgIndex, backdropImgs, movieInfo }) => {
                         scale: imgIndex === idx ? 0.95 : 0.85,
                     }}
                     transition={SPRING_OPTIONS}
-                    className="aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
+                    className="aspect-[9/16] md:aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
                 >
                     {/* Text overlay */}
                     {movieInfo && (

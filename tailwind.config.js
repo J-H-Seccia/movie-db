@@ -20,7 +20,7 @@ export default {
       foreground: "#fbfbfb",
       border: "#dee0e0",
 
-      copy: "#252727",
+      copy: "#171717",
       "copy-light": "#636869",
       "copy-lighter": "#898e8f",
 
