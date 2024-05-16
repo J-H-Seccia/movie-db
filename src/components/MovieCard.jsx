@@ -90,7 +90,7 @@ function MovieCard({ movie, isFav }) {
             </div>
             </Link>
 
-            <div className="btn-fav absolute z-50 text-white">
+            <div className="btn-fav absolute z-30 text-white">
                 {isFav ?
                     <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
                     :
