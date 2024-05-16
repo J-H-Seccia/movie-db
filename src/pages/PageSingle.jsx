@@ -1,11 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { appTitle, apiKey, endPointSearch, endPointMovieCredits } from "../globals/globalVariables";
+import { appTitle, apiKey, endPointSearch, endPointMovieCredits,imageBaseURL } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
 import ActorFallback from "../components/FallBackProfile";
 
+
+function truncateOverview(overview, wordLimit) {
+    if (!overview) {
+        return "Details Not Provided";
+    } else {
+        const words = overview.split(' ');
+        if (words.length > wordLimit) {
+            return words.slice(0, wordLimit).join(' ') + '...';
+        } else {
+            return overview;
+        }
+    }
+}
+
 function PageSingle() {
     // Get the movie ID from the URL path
-    const { id } = useParams(); 
+    const { id } = useParams();
 
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
@@ -25,11 +39,11 @@ function PageSingle() {
                 const api = `${endPointSearch}${id}?api_key=${apiKey}`;
                 const response = await fetch(api);
                 const data = await response.json();
-                
+
                 // Fetch movie credits
                 const creditsResponse = await fetch(`${endPointMovieCredits}${id}/credits?api_key=${apiKey}`);
                 const creditsData = await creditsResponse.json();
-                
+
                 const castWithImages = await Promise.all(creditsData.cast.map(async credit => {
                     // Fetch image URL for each cast member
                     const imageUrl = await fetchActorImageUrl(credit.id);
@@ -38,16 +52,17 @@ function PageSingle() {
                         image: imageUrl,
                     };
                 }));
-                
-                
+
+
                 // Display movie details
                 setMovieDetails({
                     title: data.title,
-                    overview: data.overview,
+                    overview: truncateOverview(data.overview),
                     release_date: data.release_date,
                     vote_average: data.vote_average,
                     genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "",
                     cast: castWithImages,
+                    posterPath: data.poster_path,
                 });
 
                 await fetchVideoTrailers();
@@ -110,32 +125,33 @@ function PageSingle() {
     };
 
     return (
-        <>
-            <h1 className="text-3xl font-bold underline">Single Info</h1>
+        <div className="bg-customBackground text-foreground">
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mt-6 mb-8 text-center no-underline">{movieDetails.title}</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : error ? (
                 <p>{error}</p>
             ) : (
-                <div className="movie-details">
-                    <h2>Movie Details</h2>
-                    <p>Title: {movieDetails.title}</p>
-                    <p>Overview: {movieDetails.overview}</p>
-                    <p>Release Date: {movieDetails.release_date}</p>
-                    <p>Rating: {movieDetails.vote_average}</p>
-                    <p>Genres: {movieDetails.genres}</p>
+                <div className="movie-details mx-10">
+                    <img src={`${imageBaseURL}w1280${movieDetails.posterPath}`} alt={movieDetails.title} style={{ width: '100%', maxWidth: '100%', height: 'auto' }} />
+                    {/* <h2>Movie Details</h2> */}
+                    {/* <h2>Title: {movieDetails.title}</h2> */}
+                    <p className="mt-4"> {truncateOverview(movieDetails.overview, 25)}</p>
+                    <p className="mt-4">Release Date: {movieDetails.release_date}</p>
+                    <p className="mt-4">Rating: {movieDetails.vote_average.toFixed(1)}</p>
+                    <p className="mt-4">Genres: {movieDetails.genres}</p>
 
                     {videoTrailers.length > 0 && (
                         <div className="video-trailers">
-                        <h3 className="text-xl font-bold">Video Trailers</h3>
-                        <ul>
-                            {videoTrailers.map(trailer => (
-                                <li key={trailer.id}>
-                                    <a href={constructVideoUrl(trailer.site, trailer.key)} target="_blank" rel="noopener noreferrer">{trailer.name}</a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                            <h3 className="text-xl font-bold">Video Trailers</h3>
+                            <ul>
+                                {videoTrailers.map(trailer => (
+                                    <li key={trailer.id}>
+                                        <a href={constructVideoUrl(trailer.site, trailer.key)} target="_blank" rel="noopener noreferrer">{trailer.name}</a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
                     )}
 
                     {movieDetails.cast && movieDetails.cast.length > 0 && (
@@ -161,7 +177,7 @@ function PageSingle() {
                     )}
                 </div>
             )}
-        </>
+        </div>
     );
 }
 

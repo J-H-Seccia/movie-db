@@ -115,10 +115,10 @@ function PageHome() {
                 setBackdropImgs(fullImgUrls);
             }
         }
-    
+
         buildBackdropPaths();
     }, [popularCarousel]);
-    
+
     return (
         <div>
             <h1 className="text-3xl font-bold underline">
@@ -138,8 +138,8 @@ function PageHome() {
             {/* if on mobile, just show scrollable cards (flex) and a more info btn that takes you to the single detail page */}
             {device === 'Mobile' && (
             <div className="card-flex">
-                <MovieCardOneColumn 
-                movies={movies} 
+                <MovieCardOneColumn
+                movies={movies}
                 selectedCategory={selectedCategory}
                 favs={favs}
                 />
@@ -149,8 +149,8 @@ function PageHome() {
             {/* if on desktop, show card carousel */}
             {device === 'Desktop' && (
             <div className="card-carousel">
-                <MovieCardCarousel 
-                movieInfo={movies} 
+                <MovieCardCarousel
+                movieInfo={movies}
                 selectedCategory={selectedCategory}
                 favs={favs}
                 />
@@ -160,7 +160,7 @@ function PageHome() {
 
         </div>
 
-        
+
 
      );
 }
