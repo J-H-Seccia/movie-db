@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointSearch, endPointMovieCredits } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
+import ActorFallback from "../components/FallBackProfile";
 
 function PageSingle() {
     // Get the movie ID from the URL path
@@ -93,9 +94,6 @@ function PageSingle() {
         }
     };
 
-
-
-
     // Function to fetch actor image URL from TMDB API
     const fetchActorImageUrl = async (personId) => {
         try {
@@ -104,7 +102,7 @@ function PageSingle() {
             const data = await response.json();
 
             // Extract profile image URL from the response
-            return `https://image.tmdb.org/t/p/w500${data.profile_path}`;
+            return data.profile_path ? `https://image.tmdb.org/t/p/w500${data.profile_path}` : null;
         } catch (error) {
             console.error("Failed to fetch actor image:", error);
             return null;
@@ -146,11 +144,15 @@ function PageSingle() {
                             <div className="grid grid-cols-3 gap-4">
                                 {movieDetails.cast.slice(0, 6).map(actor => (
                                     <div key={actor.name} className="flex flex-col items-center">
-                                        <img
-                                            src={actor.image}
-                                            alt={actor.name}
-                                            className="w-24 h-24 w-16 rounded mb-2"
-                                        />
+                                        {actor.image ? (
+                                            <img
+                                                src={actor.image}
+                                                alt={actor.name}
+                                                className="w-24 h-30 object-cover rounded mb-2"
+                                            />
+                                        ) : (
+                                            <ActorFallback />
+                                        )}
                                         <p className="text-center">{actor.name}</p>
                                     </div>
                                 ))}
