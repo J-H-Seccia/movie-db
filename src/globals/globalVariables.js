@@ -9,3 +9,6 @@ export const endPointUpcoming = "https://api.themoviedb.org/3/movie/upcoming";
 export const imageBaseURL = "https://image.tmdb.org/t/p/"
 export const endPointMovieCredits = "https://api.themoviedb.org/3/movie/";
 export const appStorageName = 'movie-app-favs';
+export const movieGenreBaseURL = "https://api.themoviedb.org/3/discover/movie";
+export const movieGenreBaseURLAfterAPI = "&with_genres=";
+export const listOfGenres = "https://api.themoviedb.org/3/genre/movie/list";

@@ -3,11 +3,18 @@ import { appTitle, apiKey, endPointSearch, endPointMovieCredits } from "../globa
 import { useParams } from 'react-router-dom';
 
 function PageSingle() {
+    // Get the movie ID from the URL path
     const { id } = useParams();
+
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [videoTrailers, setVideoTrailers] = useState([]);
+
+    //Setting page title
+    useEffect(() => {
+        document.title = `Single Info | ${appTitle}`;
+    }, []);
 
     // Fetch movie details using the ID from the URL
     useEffect(() => {
@@ -30,6 +37,7 @@ function PageSingle() {
                         image: imageUrl,
                     };
                 }));
+
 
                 // Display movie details
                 setMovieDetails({
@@ -86,9 +94,7 @@ function PageSingle() {
     };
 
 
-    useEffect(() => {
-        document.title = `Single Info | ${appTitle}`;
-    }, []);
+
 
     // Function to fetch actor image URL from TMDB API
     const fetchActorImageUrl = async (personId) => {
