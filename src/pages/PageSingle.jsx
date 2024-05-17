@@ -63,6 +63,8 @@ function PageSingle() {
                     genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "",
                     cast: castWithImages,
                     posterPath: data.poster_path,
+                    backdrop_path: data.backdrop_path,
+                    origin_country: data.origin_country ? data.origin_country.join(", ") : "",
                 });
 
                 await fetchVideoTrailers();
@@ -125,21 +127,26 @@ function PageSingle() {
     };
 
     return (
-        <div className="bg-customBackground text-foreground">
-            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mt-6 mb-8 text-center no-underline">{movieDetails.title}</h1>
+        <div className="bg-copy text-foreground min-h-screen ">
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-8 py-4 text-center no-underline">{movieDetails.title}</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : error ? (
                 <p>{error}</p>
             ) : (
-                <div className="movie-details mx-10">
+                <div className="movie-details mx-3">
                     <img src={`${imageBaseURL}w1280${movieDetails.posterPath}`} alt={movieDetails.title} style={{ width: '100%', maxWidth: '100%', height: 'auto' }} />
                     {/* <h2>Movie Details</h2> */}
                     {/* <h2>Title: {movieDetails.title}</h2> */}
+                    <section className="px-2 py-5">
+                        <section>
                     <p className="mt-4"> {truncateOverview(movieDetails.overview, 25)}</p>
                     <p className="mt-4">Release Date: {movieDetails.release_date}</p>
                     <p className="mt-4">Rating: {movieDetails.vote_average.toFixed(1)}</p>
                     <p className="mt-4">Genres: {movieDetails.genres}</p>
+                    <p className="mt-4">Origin Country: {movieDetails.origin_country}</p>
+                        </section>
+                        <section>
 
                     {videoTrailers.length > 0 && (
                         <div className="video-trailers">
@@ -153,28 +160,33 @@ function PageSingle() {
                             </ul>
                         </div>
                     )}
+                        </section>
+
 
                     {movieDetails.cast && movieDetails.cast.length > 0 && (
-                        <div className="cast-images">
-                            <h3 className="text-xl font-bold">Cast</h3>
-                            <div className="grid grid-cols-3 gap-4">
-                                {movieDetails.cast.slice(0, 6).map(actor => (
-                                    <div key={actor.name} className="flex flex-col items-center">
-                                        {actor.image ? (
-                                            <img
-                                                src={actor.image}
-                                                alt={actor.name}
-                                                className="w-24 h-30 object-cover rounded mb-2"
-                                            />
-                                        ) : (
-                                            <ActorFallback />
-                                        )}
-                                        <p className="text-center">{actor.name}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+ <div
+ className="cast-images mx-1.5 sm:mx-10">
+ <h3 className="text-xl font-bold">Cast</h3>
+ <div className="grid grid-cols-3 gap-4">
+     {movieDetails.cast.slice(0, 6).map(actor => (
+         <div key={actor.name} className="flex flex-col items-center">
+             {actor.image ? (
+                 <img
+                     src={actor.image}
+                     alt={actor.name}
+                     className="w-24 h-30 object-cover rounded mb-2"
+                 />
+             ) : (
+                 <ActorFallback />
+             )}
+             <p className="text-center">{actor.name}</p>
+         </div>
+     ))}
+ </div>
+</div>
+
                     )}
+                    </section>
                 </div>
             )}
         </div>
