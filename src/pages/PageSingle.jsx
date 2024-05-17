@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointSearch, endPointMovieCredits,imageBaseURL } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
 import ActorFallback from "../components/FallBackProfile";
+import ExpandableText from '../components/ExpandText';
 
 
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
-        return "Details Not Provided";
+        return "Overview: Not Provided";
     } else {
         const words = overview.split(' ');
         if (words.length > wordLimit) {
@@ -128,7 +129,7 @@ function PageSingle() {
 
     return (
         <div className="bg-copy text-foreground min-h-screen ">
-            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-8 py-4 text-center no-underline">{movieDetails.title}</h1>
+            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 text-center uppercase no-underline">{movieDetails.title}</h1>
             {loading ? (
                 <p>Loading...</p>
             ) : error ? (
@@ -140,7 +141,8 @@ function PageSingle() {
                     {/* <h2>Title: {movieDetails.title}</h2> */}
                     <section className="px-2 py-5">
                         <section>
-                    <p className="mt-4"> {truncateOverview(movieDetails.overview, 25)}</p>
+                    {/* all mobile users to tap to see more than the first 20 words of the overview */}
+                    <ExpandableText text={movieDetails.overview} initialWordLimit={20} />
                     <p className="mt-4">Release Date: {movieDetails.release_date}</p>
                     <p className="mt-4">Rating: {movieDetails.vote_average.toFixed(1)}</p>
                     <p className="mt-4">Genres: {movieDetails.genres}</p>
