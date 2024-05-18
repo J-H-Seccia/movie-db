@@ -137,7 +137,7 @@ function PageSingle() {
                                 <p className="mt-4 text-primary">{movieDetails.vote_average.toFixed(1)}</p>
                                 <p className="mt-4">Genres:</p>
                                 <p className="mt-4 text-primary">{movieDetails.genres}</p>
-                                <p className="mt-4">Origin Country:</p>
+                                <p className="mt-4">Country:</p>
                                 <p className="mt-4 text-primary">{movieDetails.origin_country}</p>
                             </div>
                         </section>
