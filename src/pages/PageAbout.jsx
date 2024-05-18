@@ -33,31 +33,32 @@ function PageAbout() {
                         <br />
                     </div>
                 </section>
-                <section className="mx-auto w-2/3 p-4">
-                <h2 className="font-bold mb-4 text-2xl">Our Team Members:</h2>
-                    <article className="grid grid-cols-2 gap-4">
-                        <div className="flex items-left">
-                            <ActorFallback />
-                            <p className="ml-6"><span className="font-bold">Jacob Harris</span><br />Jacob crafts digital worlds with lines of code, turning ideas into interactive realities. From sleek designs to seamless functionality, Jacob thrive on the thrill of bringing websites to life, one keystroke at a time.</p>
-                        </div>
-                        <div className="flex items-left">
-                            <ActorFallback />
-                            <p className="ml-6"><span className="font-bold">Nina Weng</span><br />Nina is adept at translating client visions into reality, ensuring each project not only meets but exceeds expectations. Her dedication to staying updated with the latest technologies allows her to deliver cutting-edge solutions that elevate user experiences.</p>
-                        </div>
-                        <div className="flex items-left">
-                            <ActorFallback />
-                            <p className="ml-6"><span className="font-bold">Chris Hoornaert</span><br />Chris' expertise in front-end development is truly impressive. His attention to detail shines through in every project he undertakes. He seamlessly integrates design elements with functionality, resulting in websites that are both visually stunning and user-friendly.</p>
-                        </div>
-                        <div className="flex items-left">
-                            <ActorFallback />
-                            <p className="ml-6"><span className="font-bold">Carol Chan</span><br />Carol's dedication to crafting immersive digital experiences is evident in every project he delivers. Jacob's keen eye for design and knack for problem-solving make him a valuable asset to any team.</p>
-                        </div>
-                    </article>
-                    <br />
-                    <p className="font-bold">Credits to:</p>
-                    <br />
-                    <p className="w-1/2"><a href="https://www.themoviedb.org/"><img src={tmdbLogo} alt="TMDB Logo" /></a></p>
-                </section>
+                <section className="mx-auto w-full sm:w-2/3 p-4">
+    <h2 className="font-bold mb-4 text-2xl">Our Team Members:</h2>
+    <article className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col items-center sm:items-left">
+            <ActorFallback />
+            <p className="mt-4 sm:ml-6"><span className="font-bold">Jacob Harris</span><br />Jacob crafts digital worlds with lines of code, turning ideas into interactive realities. From sleek designs to seamless functionality, Jacob thrives on the thrill of bringing websites to life, one keystroke at a time.</p>
+        </div>
+        <div className="flex flex-col items-center sm:items-left">
+            <ActorFallback />
+            <p className="mt-4 sm:ml-6"><span className="font-bold">Nina Weng</span><br />Nina is adept at translating client visions into reality, ensuring each project not only meets but exceeds expectations. Her dedication to staying updated with the latest technologies allows her to deliver cutting-edge solutions that elevate user experiences.</p>
+        </div>
+        <div className="flex flex-col items-center sm:items-left">
+            <ActorFallback />
+            <p className="mt-4 sm:ml-6"><span className="font-bold">Chris Hoornaert</span><br />Chris' expertise in front-end development is truly impressive. His attention to detail shines through in every project he undertakes. He seamlessly integrates design elements with functionality, resulting in websites that are both visually stunning and user-friendly.</p>
+        </div>
+        <div className="flex flex-col items-center sm:items-left">
+            <ActorFallback />
+            <p className="mt-4 sm:ml-6"><span className="font-bold">Carol Chan</span><br />Carol's dedication to crafting immersive digital experiences is evident in every project he delivers. Jacob's keen eye for design and knack for problem-solving make him a valuable asset to any team.</p>
+        </div>
+    </article>
+    <br />
+    <p className="font-bold">Credits to:</p>
+    <br />
+    <p className="w-1/2 mx-auto sm:ml-0"><a href="https://www.themoviedb.org/"><img src={tmdbLogo} alt="TMDB Logo" className="w-full" /></a></p>
+</section>
+
             </div>
         </>
     );
