@@ -13,7 +13,7 @@ function ExpandableText({ text, initialWordLimit }) {
 
     return (
         <div>
-            <p className="mt-5">{displayedText}</p>
+            <p className="mt-3">{displayedText}</p>
             {words.length > initialWordLimit && (
                 <div class="flex justify-center">
                     <button

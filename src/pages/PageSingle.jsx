@@ -3,6 +3,7 @@ import { appTitle, apiKey, endPointSearch, endPointMovieCredits, imageBaseURL } 
 import { useParams } from 'react-router-dom';
 import ActorFallback from "../components/FallBackProfile";
 import ExpandText from '../components/ExpandText';
+import { FavButton } from '../components/FavButton'
 import ExpandCast from '../components/ExpandCast';
 import trailerIcon from '../images/trailer-icon.png';
 
