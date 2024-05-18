@@ -6,9 +6,11 @@ import { CiMenuBurger } from "react-icons/ci";
 const NavLinks = () => {
     return (
         <>
-            <NavLink to="/about" className="px-3 hover:text-primary hover:border-b-2 border-primary">About</NavLink>
-            <NavLink to="/browse/movies" className="px-3 hover:text-primary hover:border-b-2 border-primary">Movies</NavLink>
-            <NavLink to="/favourites" className="px-3 hover:text-primary hover:border-b-2 border-primary">Favourites</NavLink>
+            <div className="font-serif">
+                <NavLink to="/about" className="px-3 hover:text-primary hover:border-b-2 border-primary">About</NavLink>
+                <NavLink to="/browse/movies" className="px-3 hover:text-primary hover:border-b-2 border-primary">Movies</NavLink>
+                <NavLink to="/favourites" className="px-3 hover:text-primary hover:border-b-2 border-primary">Favourites</NavLink>
+            </div>
         </>
 
     )
