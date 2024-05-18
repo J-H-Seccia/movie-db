@@ -13,14 +13,16 @@ function ExpandableText({ text, initialWordLimit }) {
 
     return (
         <div>
-            <p className="mt-4">{displayedText}</p>
+            <p className="mt-5">{displayedText}</p>
             {words.length > initialWordLimit && (
-                <button
-                className="px-2 py-1 rounded-full bg-sky-500 text-l w-22 text-center text-white-500 no-underline m-2"
-                onClick={handleToggle}
-            >
+                <div class="flex justify-center">
+                    <button
+                    className="mt-3 px-2 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2"
+                    onClick={handleToggle}
+                >
                 {isExpanded ? 'Show Less' : 'Show More'}
             </button>
+        </div>
             )}
         </div>
     );
