@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { appTitle, apiKey, endPointSearch, endPointMovieCredits,imageBaseURL } from "../globals/globalVariables";
+import { appTitle, apiKey, endPointSearch, endPointMovieCredits, imageBaseURL } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
 import ActorFallback from "../components/FallBackProfile";
 import ExpandableText from '../components/ExpandText';
-
 
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
@@ -140,15 +139,22 @@ function PageSingle() {
                     {/* <h2>Movie Details</h2> */}
                     {/* <h2>Title: {movieDetails.title}</h2> */}
                     <section className="px-2 py-5">
-                        <section>
+
                     {/* all mobile users to tap to see more than the first 20 words of the overview */}
                     <ExpandableText text={movieDetails.overview} initialWordLimit={20} />
-                    <p className="mt-4">Release Date: {movieDetails.release_date}</p>
-                    <p className="mt-4">Rating: {movieDetails.vote_average.toFixed(1)}</p>
-                    <p className="mt-4">Genres: {movieDetails.genres}</p>
-                    <p className="mt-4">Origin Country: {movieDetails.origin_country}</p>
+                    <section className="mb-3">
+                    <div className="grid grid-cols-2 gap-x-4">
+                        <p className="mt-4">Release Date:</p>
+                        <p className="mt-4 text-sky-500">{movieDetails.release_date}</p>
+                        <p className="mt-4">Rating:</p>
+                        <p className="mt-4 text-sky-500">{movieDetails.vote_average}</p>
+                        <p className="mt-4">Genres:</p>
+                        <p className="mt-4 text-sky-500">{movieDetails.genres}</p>
+                        <p className="mt-4">Origin Country:</p>
+                        <p className="mt-4 text-sky-500">{movieDetails.origin_country}</p>
+                    </div>
                         </section>
-                        <section>
+                    <section>
 
                     {videoTrailers.length > 0 && (
                         <div className="video-trailers">

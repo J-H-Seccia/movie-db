@@ -16,7 +16,7 @@ function ExpandableText({ text, initialWordLimit }) {
             <p className="mt-4">{displayedText}</p>
             {words.length > initialWordLimit && (
                 <button
-                className="p-2 rounded-full bg-sky-500 text-l w-22 text-center text-white-500 no-underline mt-2"
+                className="px-2 py-1 rounded-full bg-sky-500 text-l w-22 text-center text-white-500 no-underline m-2"
                 onClick={handleToggle}
             >
                 {isExpanded ? 'Show Less' : 'Show More'}
