@@ -126,6 +126,7 @@ function PageSingle() {
             ) : (
                 <div className="movie-details mx-3">
                     <img src={`${imageBaseURL}w1280${movieDetails.posterPath}`} alt={movieDetails.title} style={{ width: '100%', maxWidth: '100%', height: 'auto' }} />
+
                     <section className="px-2 py-3">
                         <ExpandText text={movieDetails.overview} initialWordLimit={20} />
                         <section className="mb-3">
@@ -133,7 +134,7 @@ function PageSingle() {
                                 <p className="mt-3">Release Date:</p>
                                 <p className="mt-4 text-primary">{movieDetails.release_date}</p>
                                 <p className="mt-4">Rating:</p>
-                                <p className="mt-4 text-primary">{movieDetails.vote_average}</p>
+                                <p className="mt-4 text-primary">{movieDetails.vote_average.toFixed(1)}</p>
                                 <p className="mt-4">Genres:</p>
                                 <p className="mt-4 text-primary">{movieDetails.genres}</p>
                                 <p className="mt-4">Origin Country:</p>
