@@ -82,7 +82,7 @@ function MovieCard({ movie, isFav }) {
             >
                 {isHovered && (
                     <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
-                        <span className="text-m font-semibold uppercase text-violet-300">Rating: {movie.vote_average.toFixed(1)}</span>
+                        <span className="text-m font-semibold uppercase text-violet-300">Rating: {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
                         <p className="my-2 text-3xl font-bold">{movie.title}</p>
                         <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
                     </div>

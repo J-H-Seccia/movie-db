@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointSearch, endPointMovieCredits, imageBaseURL } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import ActorFallback from "../components/FallBackProfile";
 import ExpandText from '../components/ExpandText';
 import { FavButton } from '../components/FavButton'
+import { addFav, deleteFav } from '../features/favs/favsSlice';
 import ExpandCast from '../components/ExpandCast';
 import trailerIcon from '../images/trailer-icon.png';
 
@@ -22,7 +24,8 @@ function truncateOverview(overview, wordLimit) {
 
 function PageSingle() {
     const { id } = useParams();
-
+    const dispatch = useDispatch();
+    const favs = useSelector(state => state.favs.items);
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -115,6 +118,16 @@ function PageSingle() {
             return null;
         }
     };
+    // add the Add Favourite/Remove Favourite functionality to PageSingle.jsx
+    const handleFavClick = (addToFav, movieObj) => {
+        if (addToFav) {
+            dispatch(addFav(movieObj));
+        } else {
+            dispatch(deleteFav(movieObj));
+        }
+    };
+
+    const isFav = favs.some(fav => fav.id === movieDetails.id);
 
     return (
         <div className="bg-copy text-foreground min-h-screen ">
@@ -126,7 +139,16 @@ function PageSingle() {
             ) : (
                 <div className="movie-details mx-3">
                     <img src={`${imageBaseURL}w1280${movieDetails.posterPath}`} alt={movieDetails.title} style={{ width: '100%', maxWidth: '100%', height: 'auto' }} />
-
+                    {movieDetails.title && (
+                        <FavButton
+                        movieObj={{
+                            id: movieDetails.id,
+                            title: movieDetails.title,
+                            poster_path: movieDetails.posterPath }}
+                            remove={isFav}
+                            handleFavClick={handleFavClick}
+                        />
+                    )}
                     <section className="px-2 py-3">
                         <ExpandText text={movieDetails.overview} initialWordLimit={20} />
                         <section className="mb-3">
