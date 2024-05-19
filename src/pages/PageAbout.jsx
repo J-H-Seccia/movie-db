@@ -56,7 +56,7 @@ function PageAbout() {
     <br />
     <p className="font-bold">Credits to:</p>
     <br />
-    <p className="w-1/2 mx-auto sm:ml-0"><a href="https://www.themoviedb.org/"><img src={tmdbLogo} alt="TMDB Logo" className="w-full" /></a></p>
+    <p className="w-1/2 md:w-1/3 mx-auto sm:ml-0"><a href="https://www.themoviedb.org/"><img src={tmdbLogo} alt="TMDB Logo" /></a></p>
 </section>
 
             </div>
