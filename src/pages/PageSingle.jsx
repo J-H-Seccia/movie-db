@@ -57,13 +57,13 @@ function PageSingle() {
                 setMovieDetails({
                     title: data.title,
                     overview: truncateOverview(data.overview),
-                    release_date: data.release_date,
-                    vote_average: data.vote_average,
-                    genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "",
+                    release_date: data.release_date ? data.release_date : "Not Available",
+                    vote_average: typeof data.vote_average === 'number' ? data.vote_average : "Not Available",
+                    genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "Not Available",
                     cast: castWithImages,
                     posterPath: data.poster_path,
                     backdrop_path: data.backdrop_path,
-                    origin_country: data.origin_country ? data.origin_country.join(", ") : "",
+                    origin_country: data.origin_country ? data.origin_country.join(", ") : "Not Available",
                 });
 
                 await fetchVideoTrailers();
