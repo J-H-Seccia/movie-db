@@ -1,9 +1,13 @@
+// Footer.jsx
+
+import React from "react";
+
 function Footer() {
     return (
-        <div className="w-full h-16 flex items-center bg-copy justify-center">
-            <p className="text-white text-2xl">&copy; 2024 Jacob, Nina, Carol, Chris</p>
-        </div>
-     );
+        <footer className="bg-copy text-white text-center p-4 bottom-0">
+            <p className="text-xl">&copy; 2024 Jacob, Nina, Carol, Chris</p>
+        </footer>
+    );
 }
 
 export default Footer;
