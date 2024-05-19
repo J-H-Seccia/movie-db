@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointSearch, endPointMovieCredits, imageBaseURL } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-// import ActorFallback from "../components/FallBackProfile";
 import ExpandText from '../components/ExpandText';
-import { FavButton } from '../components/FavButton'
+import { FavButton } from '../components/FavButton';
+import TrailerData from '../components/TrailerData';
 import { addFav, deleteFav } from '../features/favs/favsSlice';
 import ExpandCast from '../components/ExpandCast';
-import trailerIcon from '../images/trailer-icon.png';
 
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
@@ -29,7 +28,6 @@ function PageSingle() {
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [videoTrailers, setVideoTrailers] = useState([]);
 
     useEffect(() => {
         document.title = `Single Info | ${appTitle}`;
@@ -66,8 +64,6 @@ function PageSingle() {
                     origin_country: data.origin_country ? data.origin_country.join(", ") : "Not Available",
                 });
 
-                await fetchVideoTrailers();
-
             } catch (error) {
                 setError("Failed to fetch movie details. Please try again later.");
             } finally {
@@ -77,36 +73,6 @@ function PageSingle() {
 
         fetchSingleMovie();
     }, [id]);
-
-    const constructVideoUrl = (site, key) => {
-        if (site === 'YouTube') {
-            return `https://www.youtube.com/watch?v=${key}`;
-        } else if (site === 'Vimeo') {
-            return `https://vimeo.com/${key}`;
-        } else {
-            return null;
-        }
-    };
-
-    const fetchVideoTrailers = async () => {
-        try {
-            const options = {
-                method: 'GET',
-                headers: {
-                    accept: 'application/json',
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2OWJiYTJmNTQ2N2U3Yzk1NmVjYWFhN2FmMWNjMjFhNiIsInN1YiI6IjY2MzUyN2U0OTlkNWMzMDEyNjU3NzhiMSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ._QXgq2rIB6fX_fni3NVUlSbASV-S6jFomm42-d2T52c',
-                }
-            };
-            const response = await fetch(`https://api.themoviedb.org/3/movie/${id}/videos?language=en-US`, options);
-            const data = await response.json();
-
-            const trailerVideos = data.results.filter(video => video.type === 'Trailer');
-
-            setVideoTrailers(trailerVideos);
-        } catch (error) {
-            console.error("Failed to fetch video trailers:", error);
-        }
-    };
 
     const fetchActorImageUrl = async (personId) => {
         try {
@@ -118,7 +84,7 @@ function PageSingle() {
             return null;
         }
     };
-    // add the Add Favourite/Remove Favourite functionality to PageSingle.jsx
+
     const handleFavClick = (addToFav, movieObj) => {
         if (addToFav) {
             dispatch(addFav(movieObj));
@@ -130,7 +96,7 @@ function PageSingle() {
     const isFav = favs.some(fav => fav.id === movieDetails.id);
 
     return (
-        <div className="bg-copy text-foreground min-h-screen ">
+        <div className="bg-copy text-foreground min-h-screen">
             <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 text-center uppercase no-underline">{movieDetails.title}</h1>
             {loading ? (
                 <p>Loading...</p>
@@ -138,17 +104,27 @@ function PageSingle() {
                 <p>{error}</p>
             ) : (
                 <div className="movie-details mx-3">
-                    <img src={`${imageBaseURL}w1280${movieDetails.posterPath}`} alt={movieDetails.title} style={{ width: '100%', maxWidth: '100%', height: 'auto' }} />
-                    {movieDetails.title && (
-                        <FavButton
-                        movieObj={{
-                            id: movieDetails.id,
-                            title: movieDetails.title,
-                            poster_path: movieDetails.posterPath }}
-                            remove={isFav}
-                            handleFavClick={handleFavClick}
+                    <div className="relative inline-block">
+                        <img
+                            src={`${imageBaseURL}w1280${movieDetails.posterPath}`}
+                            alt={movieDetails.title}
+                            style={{ width: '100%', maxWidth: '100%', height: 'auto' }}
                         />
-                    )}
+                        {movieDetails.title && (
+                            <FavButton
+                                movieObj={{
+                                    id: movieDetails.id,
+                                    title: movieDetails.title,
+                                    poster_path: movieDetails.posterPath
+                                }}
+                                remove={isFav}
+                                handleFavClick={handleFavClick}
+                                className="absolute left-1/2 transform -translate-x-1/2"
+                                style={{ top: 'calc(90% + 5px)' }}
+                            />
+                        )}
+                    </div>
+
                     <section className="px-2 py-3">
                         <ExpandText text={movieDetails.overview} initialWordLimit={20} />
                         <section className="mb-3">
@@ -160,44 +136,21 @@ function PageSingle() {
                                     {typeof movieDetails.vote_average === 'number'
                                         ? movieDetails.vote_average.toFixed(1)
                                         : 'N/A'}
-                                    </p>
+                                </p>
                                 <p className="mt-4">Genres:</p>
                                 <p className="mt-4 text-primary">{movieDetails.genres}</p>
                                 <p className="mt-4">Country:</p>
                                 <p className="mt-4 text-primary">{movieDetails.origin_country}</p>
                             </div>
                         </section>
-
-                        <section className="video-trailer-container">
-                            {videoTrailers.length > 0 && (
-                                <div className="video-trailers">
-                                    <ul>
-                                        {videoTrailers.map(trailer => (
-                                            <li key={trailer.id}>
-                                                <div className="flex justify-center">
-                                                    <button
-                                                        className="flex items-center px-2 py-1 rounded-full bg-primary text-l text-center text-white-500 no-underline m-2"
-                                                        onClick={() => window.open(constructVideoUrl(trailer.site, trailer.key), '_blank')}
-                                                    >
-                                                        <img src={trailerIcon} alt="Trailer Icon" className="w-4 h-4 mr-2" />
-                                                        {trailer.name}
-                                                    </button>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-                        </section>
                     </section>
 
-                    <section className="actors-container">
-                        {movieDetails.cast && movieDetails.cast.length > 0 && (
-                            <div className="cast-images mx-1.5 sm:mx-10">
-                                <h3 className="text-xl font-bold">Cast</h3>
-                                <ExpandCast cast={movieDetails.cast} />
-                            </div>
-                        )}
+                    {/* add the trailer link(s) from components/TrailerData.jsx */}
+                    <TrailerData id={id} />
+
+                    <section className="actors-container px-2 py-3">
+                        <h2 className="text-2xl font-bold mt-4 mb-2">Cast:</h2>
+                        <ExpandCast cast={movieDetails.cast} initialShowCount={10} />
                     </section>
                 </div>
             )}

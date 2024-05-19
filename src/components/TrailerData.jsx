@@ -1,7 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import trailerIcon from '../images/trailer-icon.png'; // Ensure you have the correct path to the trailer icon
 
-const VideoTrailers = ({ id, constructVideoUrl }) => {
+const TrailerData = ({ id }) => {
     const [videoTrailers, setVideoTrailers] = useState([]);
+
+    const buildTrailerLink = (site, key) => {
+        if (site === 'YouTube') {
+            return `https://www.youtube.com/watch?v=${key}`;
+        } else if (site === 'Vimeo') {
+            return `https://vimeo.com/${key}`;
+        } else {
+            return null;
+        }
+    };
 
     useEffect(() => {
         const fetchVideoTrailers = async () => {
@@ -30,27 +41,29 @@ const VideoTrailers = ({ id, constructVideoUrl }) => {
 
     return (
         <section className="video-trailer-container">
-            {videoTrailers.length > 0 && (
+            {videoTrailers.length > 0 ? (
                 <div className="video-trailers">
                     <ul>
-                        {videoTrailers.map(trailer => (
+                        {videoTrailers.map((trailer, index) => (
                             <li key={trailer.id}>
                                 <div className="flex justify-center">
                                     <button
-                                        className="flex items-center px-2 py-1 rounded-full bg-primary text-l text-center text-white-500 no-underline m-2"
-                                        onClick={() => window.open(constructVideoUrl(trailer.site, trailer.key), '_blank')}
+                                        className="flex items-center px-3 py-1 rounded-full bg-primary text-l text-center text-white-500 no-underline m-2"
+                                        onClick={() => window.open(buildTrailerLink(trailer.site, trailer.key), '_blank')}
                                     >
                                         <img src={trailerIcon} alt="Trailer Icon" className="w-4 h-4 mr-2" />
-                                        {trailer.name}
+                                        {`Trailer ${index + 1}`}
                                     </button>
                                 </div>
                             </li>
                         ))}
                     </ul>
                 </div>
+            ) : (
+                <p className="text-center text-gray-500 mt-4">No Trailers Available</p>
             )}
         </section>
     );
 };
 
-export default VideoTrailers;
+export default TrailerData;

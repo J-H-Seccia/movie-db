@@ -50,7 +50,7 @@ function ExpandCast({ cast }) {
                 <div className="flex justify-center mt-4">
                     <button
                         onClick={handleToggle}
-                        className="mt-3 px-2 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2 flex items-center">
+                        className="mt-2 mb-2 px-3 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2 flex items-center">
                         <img src={castIcon} alt="Cast Icon" className="w-6 h-6 mr-2" /> {/* Add the Cast Icon */}
                         {showAll ? 'Show Less' : 'Show More'}
                     </button>
