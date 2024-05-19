@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ActorFallback from './FallBackProfile';
+import castIcon from '../images/castIcon.png';
 
 function ExpandCast({ cast }) {
     const [showAll, setShowAll] = useState(window.innerWidth >= 1024); // Initialize based on screen size
@@ -49,8 +50,8 @@ function ExpandCast({ cast }) {
                 <div className="flex justify-center mt-4">
                     <button
                         onClick={handleToggle}
-                        className="mt-3 px-2 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2"
-                    >
+                        className="mt-3 px-2 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2 flex items-center">
+                        <img src={castIcon} alt="Cast Icon" className="w-6 h-6 mr-2" /> {/* Add the Cast Icon */}
                         {showAll ? 'Show Less' : 'Show More'}
                     </button>
                 </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { appTitle, apiKey, endPointSearch, endPointMovieCredits, imageBaseURL } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import ActorFallback from "../components/FallBackProfile";
+// import ActorFallback from "../components/FallBackProfile";
 import ExpandText from '../components/ExpandText';
 import { FavButton } from '../components/FavButton'
 import { addFav, deleteFav } from '../features/favs/favsSlice';
