@@ -50,7 +50,7 @@ function PageAbout() {
         </div>
         <div className="flex flex-col items-center sm:items-left">
             <ActorFallback />
-            <p className="mt-4 sm:ml-6"><span className="font-bold">Carol Chan</span><br />Carol's dedication to crafting immersive digital experiences is evident in every project he delivers. Jacob's keen eye for design and knack for problem-solving make him a valuable asset to any team.</p>
+            <p className="mt-4 sm:ml-6"><span className="font-bold">Carol Chan</span><br />Carol's dedication to crafting immersive digital experiences is evident in every project she delivers. Carol's keen eye for design and knack for problem-solving make her a valuable asset to any team.</p>
         </div>
     </article>
     <br />
