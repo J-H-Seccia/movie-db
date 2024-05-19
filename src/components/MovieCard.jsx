@@ -4,6 +4,8 @@ import { imageBaseURL } from '../globals/globalVariables.js';
 import { useDispatch } from 'react-redux';
 import { addFav, deleteFav } from '../features/favs/favsSlice';
 import { FavButton } from './FavButton';
+import MovieFallback from '../images/movieFallback.svg';
+
 
 
 const CARD_WIDTH = 300;
@@ -66,6 +68,7 @@ function MovieCard({ movie, isFav }) {
                     height: CARD_HEIGHT,
                     margin: MARGIN,
                     //backgroundImage: `url(${imageBaseURL}w1280${movie.poster_path})`,
+                    backgroundImage: `url(${MovieFallback})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                 }}
@@ -77,12 +80,15 @@ function MovieCard({ movie, isFav }) {
                     <img
                         src={`${imageBaseURL}w1280${movie.poster_path}`}
                         alt={movie.title}
-                        className="w-full h-full bg-blue-100 object-cover rounded-2xl"
+                        className="w-full h-full object-cover rounded-2xl"
                     />
                 ) : (
-                    <MovieFallback />
+                    <img
+                        src={MovieFallback}
+                        alt="Fallback Image"
+                        className="bg-blue-200 object-scale-down"
+                    />
                 )}
-
                 {isHovered && !setMediaQueryForLarge() && (
                     <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
                         <span className="text-m font-semibold uppercase text-violet-300">Rating: {movie.vote_average.toFixed(1)}</span>
