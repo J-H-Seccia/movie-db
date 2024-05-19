@@ -156,7 +156,11 @@ function PageSingle() {
                                 <p className="mt-3">Release Date:</p>
                                 <p className="mt-4 text-primary">{movieDetails.release_date}</p>
                                 <p className="mt-4">Rating:</p>
-                                <p className="mt-4 text-primary">{movieDetails.vote_average.toFixed(1)}</p>
+                                <p className="mt-4 text-primary">
+                                    {typeof movieDetails.vote_average === 'number'
+                                        ? movieDetails.vote_average.toFixed(1)
+                                        : 'N/A'}
+                                    </p>
                                 <p className="mt-4">Genres:</p>
                                 <p className="mt-4 text-primary">{movieDetails.genres}</p>
                                 <p className="mt-4">Country:</p>
