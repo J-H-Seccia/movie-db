@@ -2,12 +2,17 @@ import React, { useState, useEffect } from 'react';
 import ActorFallback from './FallBackProfile';
 
 function ExpandCast({ cast }) {
-    const [showAll, setShowAll] = useState(false);
+    const [showAll, setShowAll] = useState(window.innerWidth >= 1024); // Initialize based on screen size
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    const [isLarge, setIsLarge] = useState(window.innerWidth >= 1024); // Track if the screen is large or greater
 
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
+            setIsLarge(window.innerWidth >= 1024);
+            if (window.innerWidth >= 1024) {
+                setShowAll(true); // Automatically show all on large screens
+            }
         };
 
         window.addEventListener('resize', handleResize);
@@ -24,7 +29,7 @@ function ExpandCast({ cast }) {
 
     return (
         <div>
-            <div className={`grid gap-4 ${showAll ? 'grid-cols-2 md:grid-cols-3' : 'grid-cols-2 md:grid-cols-3'}`}>
+            <div className={`grid gap-4 ${showAll ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-3' : 'grid-cols-2 md:grid-cols-3'}`}>
                 {displayedCast.map(actor => (
                     <div key={actor.name} className="flex flex-col items-center">
                         {actor.image ? (
@@ -40,14 +45,16 @@ function ExpandCast({ cast }) {
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center mt-4">
-                <button
-                    onClick={handleToggle}
-                    className="bg-primary text-white px-4 py-2 rounded"
-                >
-                    {showAll ? 'See Less' : 'See More'}
-                </button>
-            </div>
+            {!isLarge && (
+                <div className="flex justify-center mt-4">
+                    <button
+                        onClick={handleToggle}
+                        className="mt-3 px-2 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2"
+                    >
+                        {showAll ? 'Show Less' : 'Show More'}
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
