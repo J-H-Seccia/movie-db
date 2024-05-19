@@ -195,22 +195,7 @@ function PageSingle() {
                         {movieDetails.cast && movieDetails.cast.length > 0 && (
                             <div className="cast-images mx-1.5 sm:mx-10">
                                 <h3 className="text-xl font-bold">Cast</h3>
-                                <div className="grid grid-cols-3 gap-4">
-                                    {movieDetails.cast.slice(0, 6).map(actor => (
-                                        <div key={actor.name} className="flex flex-col items-center">
-                                            {actor.image ? (
-                                                <img
-                                                    src={actor.image}
-                                                    alt={actor.name}
-                                                    className="w-24 h-30 object-cover rounded mb-2"
-                                                />
-                                            ) : (
-                                                <ActorFallback />
-                                            )}
-                                            <p className="text-center">{actor.name}</p>
-                                        </div>
-                                    ))}
-                                </div>
+                                <ExpandCast cast={movieDetails.cast} />
                             </div>
                         )}
                     </section>
