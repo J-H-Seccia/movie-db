@@ -104,7 +104,7 @@ function PageSingle() {
             ) : (
                 <div className="movie-details mx-3">
                     <div className="relative md:flex md:flex-row">
-                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline md:hidden">
+                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline md:hidden text-center">
                             {movieDetails.title}
                         </h1>
                         <div className="md:w-1/3 md:mr-4">
@@ -112,7 +112,7 @@ function PageSingle() {
                                 <img
                                     src={`${imageBaseURL}w1280${movieDetails.posterPath}`}
                                     alt={movieDetails.title}
-                                    className="w-full max-w-full h-auto md:w-64"
+                                    className="w-full max-w-full h-auto md:w-64 rounded-lg"
                                 />
                                 {movieDetails.title && (
                                     <FavButton
@@ -133,7 +133,7 @@ function PageSingle() {
                         <div className="md:w-2/3">
                         <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 md:ml-0 mr-10 mb-2 py-4 uppercase no-underline hidden md:block text-left">
                         {movieDetails.title}
-                        < /h1>
+                        </h1>
 
                             <section className="px-2 py-3">
                                 <ExpandText text={movieDetails.overview} initialWordLimit={20} />
