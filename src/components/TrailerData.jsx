@@ -48,7 +48,7 @@ const TrailerData = ({ id }) => {
                             <li key={trailer.id}>
                                 <div className="flex justify-center">
                                     <button
-                                        className="flex items-center px-3 py-1 rounded-full bg-primary text-l text-center text-white-500 no-underline m-2 hover:bg-secondary"
+                                        className="flex items-center px-3 py-1 rounded-full bg-primary text-l text-center text-white-500 no-underline m-2 md:hover:bg-secondary"
                                         onClick={() => window.open(buildTrailerLink(trailer.site, trailer.key), '_blank')}
                                     >
                                         {/* For styling purposes, display trailerIcon only for screens larger than sm*/}

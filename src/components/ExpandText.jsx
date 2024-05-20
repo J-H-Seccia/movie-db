@@ -18,7 +18,7 @@ function ExpandableText({ text, initialWordLimit }) {
             {words.length > initialWordLimit && (
                 <div className="flex justify-center">
                     <button
-                        className="mt-3 px-3 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2 flex items-center" // Added 'flex items-center' class
+                        className="mt-3 px-3 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2 flex items-center md:hover:bg-secondary" // Added 'flex items-center' class
                         onClick={handleToggle}
                     >
                         <img src={overviewIcon} alt="Overview Icon" className="w-6 h-6 mr-2" />
