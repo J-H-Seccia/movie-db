@@ -3,16 +3,16 @@ import ActorFallback from './FallBackProfile';
 import castIcon from '../images/castIcon.png';
 
 function ExpandCast({ cast }) {
-    const [showAll, setShowAll] = useState(window.innerWidth >= 1024); // Initialize based on screen size
+    const [showAll, setShowAll] = useState(window.innerWidth >= 1024);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    const [isLarge, setIsLarge] = useState(window.innerWidth >= 1024); // Track if the screen is large or greater
+    const [isLarge, setIsLarge] = useState(window.innerWidth >= 1024);
 
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
             setIsLarge(window.innerWidth >= 1024);
             if (window.innerWidth >= 1024) {
-                setShowAll(true); // Automatically show all on large screens
+                setShowAll(true);
             }
         };
 
@@ -32,18 +32,19 @@ function ExpandCast({ cast }) {
         <div>
             <div className={`grid gap-4 ${showAll ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-3' : 'grid-cols-2 md:grid-cols-3'}`}>
                 {displayedCast.map(actor => (
-                    <div key={actor.name} className="flex flex-col items-center">
-                        {actor.image ? (
-                            <img
-                                src={actor.image}
-                                alt={actor.name}
-                                className="w-24 h-30 object-cover rounded mb-2"
-                            />
-                        ) : (
-                            <ActorFallback />
-                        )}
-                        <p className="text-center">{actor.name}</p>
-                    </div>
+                   <div key={actor.name} className=" bg-black bg-opacity-50 p-2 flex flex-col items-center rounded w-[140px] md:w-[225px]">
+                            {actor.image ? (
+                    <img
+                        src={actor.image}
+                        alt={actor.name}
+                        className="w-[130px] md:w-[215px] h-auto object-cover rounded mb-2 "
+                    />
+                ) : (
+                    <ActorFallback />
+                )}
+                <p className="text-center text-white">{actor.name}</p>
+            </div>
+
                 ))}
             </div>
             {!isLarge && (

@@ -102,71 +102,75 @@ function PageSingle() {
             ) : error ? (
                 <p>{error}</p>
             ) : (
-                <div className="movie-details mx-3">
-                    <div className="relative md:flex md:flex-row">
-                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline md:hidden text-center">
-                            {movieDetails.title}
-                        </h1>
-                        <div className="md:w-1/3 md:mr-4">
-                            <div className="relative inline-block w-full">
-                                <img
-                                    src={`${imageBaseURL}w1280${movieDetails.posterPath}`}
-                                    alt={movieDetails.title}
-                                    className="w-full max-w-full h-auto md:w-64 rounded-lg"
-                                />
-                                {movieDetails.title && (
-                                    <FavButton
-                                        movieObj={{
-                                            id: movieDetails.id,
-                                            title: movieDetails.title,
-                                            poster_path: movieDetails.posterPath
-                                        }}
-                                        remove={isFav}
-                                        handleFavClick={handleFavClick}
-                                        className="absolute left-1/2 transform -translate-x-1/2"
-                                        style={{ top: 'calc(100% + 10px)' }}
-                                    />
-                                )}
+                <>
+                    <section className="wrapper-single bg-copy">
+                        <div className="movie-details mx-3 pt-2">
+                            <div className="relative md:flex md:flex-row bg-black mt-2 px-5 py-5">
+                                <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline md:hidden text-center">
+                                    {movieDetails.title}
+                                </h1>
+                                <div className="md:w-1/3 md:mr-4 md:mt-4 md:ml-">
+                                    <div className="relative inline-block w-full">
+                                        <img
+                                            src={`${imageBaseURL}w1280${movieDetails.posterPath}`}
+                                            alt={movieDetails.title}
+                                            className="w-full max-w-full h-auto md:w-64 rounded-lg"
+                                        />
+                                        {movieDetails.title && (
+                                            <FavButton
+                                                movieObj={{
+                                                    id: movieDetails.id,
+                                                    title: movieDetails.title,
+                                                    poster_path: movieDetails.posterPath
+                                                }}
+                                                remove={isFav}
+                                                handleFavClick={handleFavClick}
+                                                className="absolute left-1/2 transform -translate-x-1/2"
+                                                style={{ top: 'calc(100% + 10px)' }}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="md:w-2/3">
+                                    <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 md:ml-0 mr-10 mb-2 py-4 uppercase no-underline hidden md:block text-left">
+                                        {movieDetails.title}
+                                    </h1>
+
+                                    <section className="px-2 py-3">
+                                        <ExpandText text={movieDetails.overview} initialWordLimit={20} />
+                                        <section className="mb-3">
+                                            <div className="grid grid-cols-2 gap-x-4">
+                                                <p className="mt-3">Release Date:</p>
+                                                <p className="mt-4 text-primary">{movieDetails.release_date}</p>
+                                                <p className="mt-4">Rating:</p>
+                                                <p className="mt-4 text-primary">
+                                                    {typeof movieDetails.vote_average === 'number'
+                                                        ? movieDetails.vote_average.toFixed(1)
+                                                        : 'N/A'}
+                                                </p>
+                                                <p className="mt-4">Genres:</p>
+                                                <p className="mt-4 text-primary">{movieDetails.genres}</p>
+                                                <p className="mt-4">Country:</p>
+                                                <p className="mt-4 text-primary">{movieDetails.origin_country}</p>
+                                            </div>
+                                        </section>
+                                    </section>
+                                </div>
                             </div>
                         </div>
-
-                        <div className="md:w-2/3">
-                        <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 md:ml-0 mr-10 mb-2 py-4 uppercase no-underline hidden md:block text-left">
-                        {movieDetails.title}
-                        </h1>
-
-                            <section className="px-2 py-3">
-                                <ExpandText text={movieDetails.overview} initialWordLimit={20} />
-                                <section className="mb-3">
-                                    <div className="grid grid-cols-2 gap-x-4">
-                                        <p className="mt-3">Release Date:</p>
-                                        <p className="mt-4 text-primary">{movieDetails.release_date}</p>
-                                        <p className="mt-4">Rating:</p>
-                                        <p className="mt-4 text-primary">
-                                            {typeof movieDetails.vote_average === 'number'
-                                                ? movieDetails.vote_average.toFixed(1)
-                                                : 'N/A'}
-                                        </p>
-                                        <p className="mt-4">Genres:</p>
-                                        <p className="mt-4 text-primary">{movieDetails.genres}</p>
-                                        <p className="mt-4">Country:</p>
-                                        <p className="mt-4 text-primary">{movieDetails.origin_country}</p>
-                                    </div>
-                                </section>
-                            </section>
-                        </div>
-                    </div>
+                    </section>
 
                     <TrailerData id={id} />
 
-                    <section className="actors-container px-2 py-3">
-                        <h3 className="text-2xl font-bold mt-4 mb-2 text-center">Cast</h3>
+                    <section className="actors-container px-2 py-3 flex justify-center">
                         <ExpandCast cast={movieDetails.cast} initialShowCount={10} />
                     </section>
-                </div>
+                </>
             )}
         </div>
     );
+
 
 }
 
