@@ -36,7 +36,7 @@ export default {
       fontFamily: {
         'sans': ['Open Sans', 'sans-serif'], // Default font family
         'serif': ['Sanchez', 'serif'], // Optional font family
-      }
+      },
     },
   },
   plugins: [],

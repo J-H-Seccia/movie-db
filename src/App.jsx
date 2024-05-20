@@ -3,7 +3,7 @@ import AppRouter from "./routers/AppRouter"
 import { Provider } from 'react-redux'
 import store from './store/store'
 import FontLoader from './components/FontLoader';
-
+import '@fortawesome/fontawesome-free/css/all.css';
 
 function App() {
   const fontsToLoad = ['Open+Sans:400,700'];
