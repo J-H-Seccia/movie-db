@@ -7,6 +7,7 @@ import { FavButton } from '../components/FavButton';
 import TrailerData from '../components/TrailerData';
 import { addFav, deleteFav } from '../features/favs/favsSlice';
 import ExpandCast from '../components/ExpandCast';
+import SingleMovieDetails from '../components/SingleMovieDetails'
 
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
@@ -62,6 +63,9 @@ function PageSingle() {
                     posterPath: data.poster_path,
                     backdrop_path: data.backdrop_path,
                     origin_country: data.origin_country ? data.origin_country.join(", ") : "Not Available",
+                    production_country: data.production_countries && data.production_countries.length > 0
+                    ? data.production_countries.map(country => country.name).join(", ")
+                    : "Not Available",
                 });
 
             } catch (error) {
@@ -104,8 +108,8 @@ function PageSingle() {
             ) : (
                 <>
                     <section className="wrapper-single bg-copy">
-                        <div className="movie-details mx-3 pt-2">
-                            <div className="relative md:flex md:flex-row bg-black mt-2 px-5 py-5">
+                    <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
+                            <div className="relative md:flex md:flex-rowmt-2 px-5 py-5">
                                 <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline md:hidden text-center">
                                     {movieDetails.title}
                                 </h1>
@@ -137,7 +141,7 @@ function PageSingle() {
                                         {movieDetails.title}
                                     </h1>
 
-                                    <section className="px-2 py-3">
+                                    <section className="px-2 py-3  bg-black bg-opacity-50 rounded-lg">
                                         <ExpandText text={movieDetails.overview} initialWordLimit={20} />
                                         <section className="mb-3">
                                             <div className="grid grid-cols-2 gap-x-4">
@@ -151,20 +155,27 @@ function PageSingle() {
                                                 </p>
                                                 <p className="mt-4">Genres:</p>
                                                 <p className="mt-4 text-primary">{movieDetails.genres}</p>
-                                                <p className="mt-4">Country:</p>
-                                                <p className="mt-4 text-primary">{movieDetails.origin_country}</p>
+                                                <p className="mt-4">Production Country:</p>
+                                            <p className="mt-4 text-primary">{movieDetails.production_country}</p>
+                                            <p className="mt-4">Trailers:</p>
+                                            <div className="mt-4 flex justify-start">
+                                                <TrailerData id={id} />
+                                            </div>
+
                                             </div>
                                         </section>
                                     </section>
                                 </div>
                             </div>
-                        </div>
+                    </SingleMovieDetails>
                     </section>
 
-                    <TrailerData id={id} />
-
-                    <section className="actors-container px-2 py-3 flex justify-center">
-                        <ExpandCast cast={movieDetails.cast} initialShowCount={10} />
+                    {/* <TrailerData id={id} /> */}
+                    <section className="actors-container">
+                        <h2 className="text-center mt-5">Cast</h2>
+                        <section className=" px-2 py-3 flex justify-center">
+                            <ExpandCast cast={movieDetails.cast} initialShowCount={10} />
+                        </section>
                     </section>
                 </>
             )}

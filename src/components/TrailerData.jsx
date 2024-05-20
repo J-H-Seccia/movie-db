@@ -51,7 +51,12 @@ const TrailerData = ({ id }) => {
                                         className="flex items-center px-3 py-1 rounded-full bg-primary text-l text-center text-white-500 no-underline m-2"
                                         onClick={() => window.open(buildTrailerLink(trailer.site, trailer.key), '_blank')}
                                     >
-                                        <img src={trailerIcon} alt="Trailer Icon" className="w-4 h-4 mr-2" />
+                                        {/* For styling purposes, display trailerIcon only for screens larger than sm*/}
+                                        <img
+                                            src={trailerIcon}
+                                            alt="Trailer Icon"
+                                            className="w-4 h-4 mr-2 hidden sm:inline"
+                                        />
                                         {`Trailer ${index + 1}`}
                                     </button>
                                 </div>
@@ -64,6 +69,7 @@ const TrailerData = ({ id }) => {
             )}
         </section>
     );
+
 };
 
 export default TrailerData;

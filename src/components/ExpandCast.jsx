@@ -3,17 +3,12 @@ import ActorFallback from './FallBackProfile';
 import castIcon from '../images/castIcon.png';
 
 function ExpandCast({ cast }) {
-    const [showAll, setShowAll] = useState(window.innerWidth >= 1024);
+    const [showAll, setShowAll] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    const [isLarge, setIsLarge] = useState(window.innerWidth >= 1024);
 
     useEffect(() => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
-            setIsLarge(window.innerWidth >= 1024);
-            if (window.innerWidth >= 1024) {
-                setShowAll(true);
-            }
         };
 
         window.addEventListener('resize', handleResize);
@@ -30,33 +25,30 @@ function ExpandCast({ cast }) {
 
     return (
         <div>
-            <div className={`grid gap-4 ${showAll ? 'grid-cols-2 md:grid-cols-3 lg:grid-cols-3' : 'grid-cols-2 md:grid-cols-3'}`}>
+            <div className={`grid gap-4 grid-cols-2 md:grid-cols-3`}>
                 {displayedCast.map(actor => (
-                   <div key={actor.name} className=" bg-black bg-opacity-50 p-2 flex flex-col items-center rounded w-[140px] md:w-[225px]">
-                            {actor.image ? (
-                    <img
-                        src={actor.image}
-                        alt={actor.name}
-                        className="w-[130px] md:w-[215px] h-auto object-cover rounded mb-2 "
-                    />
-                ) : (
-                    <ActorFallback />
-                )}
-                <p className="text-center text-white">{actor.name}</p>
-            </div>
-
+                    <div key={actor.name} className=" bg-black bg-opacity-50 p-2 flex flex-col items-center rounded w-[140px] md:w-[225px] lg:w-[332px]">
+                        {actor.image ? (
+                            <img
+                                src={actor.image}
+                                alt={actor.name}
+                                className="w-[130px] md:w-[215px] lg:w-[322px] h-auto object-cover rounded mb-2 "
+                            />
+                        ) : (
+                            <ActorFallback />
+                        )}
+                        <p className="text-center text-white">{actor.name}</p>
+                    </div>
                 ))}
             </div>
-            {!isLarge && (
-                <div className="flex justify-center mt-4">
-                    <button
-                        onClick={handleToggle}
-                        className="mt-2 mb-2 px-3 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2 flex items-center">
-                        <img src={castIcon} alt="Cast Icon" className="w-6 h-6 mr-2" /> {/* Add the Cast Icon */}
-                        {showAll ? 'Show Less' : 'Show More'}
-                    </button>
-                </div>
-            )}
+            <div className="flex justify-center mt-4">
+                <button
+                    onClick={handleToggle}
+                    className="mt-2 mb-2 px-3 py-1 rounded-full bg-primary text-l w-22 text-center text-white-500 no-underline m-2 flex items-center">
+                    <img src={castIcon} alt="Cast Icon" className="w-6 h-6 mr-2" />
+                    {showAll ? 'Show Less' : 'Show More'}
+                </button>
+            </div>
         </div>
     );
 }
