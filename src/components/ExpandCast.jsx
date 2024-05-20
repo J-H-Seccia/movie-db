@@ -32,7 +32,7 @@ function ExpandCast({ cast }) {
                             <img
                                 src={actor.image}
                                 alt={actor.name}
-                                className="w-[130px] md:w-[215px] lg:w-[322px] h-auto object-cover rounded mb-2 "
+                                className="w-[130px] md:w-[205px] lg:w-[312px] h-auto object-cover rounded mb-2 "
                             />
                         ) : (
                             <ActorFallback />
