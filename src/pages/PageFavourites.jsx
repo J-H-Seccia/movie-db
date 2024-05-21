@@ -13,7 +13,7 @@ function PageFavourites() {
 
     return (
         <>
-        <section className="favourites-wrapper bg-copy text-white">
+        <section className="favourites-wrapper bg-copy text-white text-center">
             <h1 className="text-3xl font-bold underline">
                 Favourites
             </h1>
