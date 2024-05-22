@@ -58,7 +58,10 @@ const MovieCardCarousel = ({movieInfo, selectedCategory, favs}) => {
             className="flex justify-start"
           >
             {movieInfo.map((movie) => {
-              return <MovieCard key={movie.id} movie={movie} isFav={isFav(favs, null, movie.id)}/>;
+              return <MovieCard 
+                key={movie.id} 
+                movie={movie} 
+                isFav={isFav(favs, null, movie.id)}/>;
             })}
           </motion.div>
         </div>
