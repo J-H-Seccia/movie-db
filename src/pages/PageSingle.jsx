@@ -3,11 +3,12 @@ import { appTitle, apiKey, endPointSearch, endPointMovieCredits, imageBaseURL } 
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ExpandText from '../components/ExpandText';
-import { FavButton } from '../components/FavButton';
+import MovieCard from '../components/MovieCard';
+// import { FavButton } from '../components/FavButton';
 import TrailerData from '../components/TrailerData';
-import { addFav, deleteFav } from '../features/favs/favsSlice';
+// import { addFav, deleteFav } from '../features/favs/favsSlice';
 import ExpandCast from '../components/ExpandCast';
-import SingleMovieDetails from '../components/SingleMovieDetails'
+import SingleMovieDetails from '../components/SingleMovieDetails';
 
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
@@ -54,13 +55,14 @@ function PageSingle() {
                 }));
 
                 setMovieDetails({
+                    id: data.id,  // Make sure to set the ID here
                     title: data.title,
                     overview: truncateOverview(data.overview),
                     release_date: data.release_date ? data.release_date : "Not Available",
                     vote_average: typeof data.vote_average === 'number' ? data.vote_average : "Not Available",
                     genres: data.genres ? data.genres.map(genre => genre.name).join(", ") : "Not Available",
                     cast: castWithImages,
-                    posterPath: data.poster_path,
+                    poster_path: data.poster_path,
                     backdrop_path: data.backdrop_path,
                     origin_country: data.origin_country ? data.origin_country.join(", ") : "Not Available",
                     production_country: data.production_countries && data.production_countries.length > 0
@@ -107,33 +109,25 @@ function PageSingle() {
                 <p>{error}</p>
             ) : (
                 <>
-                    <section className="wrapper-single bg-copy">
+                    <section className="wrapper-single bg-copy py-5">
                     <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
                             <div className="relative md:flex md:flex-rowmt-2 px-5 py-5">
                                 <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline md:hidden text-center">
                                     {movieDetails.title}
                                 </h1>
-                                <div className="md:w-1/3 md:mr-4 md:mt-4 md:ml-">
-                                    <div className="relative inline-block w-full">
-                                        <img
-                                            src={`${imageBaseURL}w1280${movieDetails.posterPath}`}
-                                            alt={movieDetails.title}
-                                            className="w-full max-w-full h-auto md:w-64 rounded-lg"
-                                        />
-                                        {movieDetails.title && (
-                                            <FavButton
-                                                movieObj={{
-                                                    id: movieDetails.id,
-                                                    title: movieDetails.title,
-                                                    poster_path: movieDetails.posterPath
-                                                }}
-                                                remove={isFav}
-                                                handleFavClick={handleFavClick}
-                                                className="absolute left-1/2 transform -translate-x-1/2"
-                                                style={{ top: 'calc(100% + 10px)' }}
-                                            />
-                                        )}
-                                    </div>
+                                <div className="md:w-1/3 md:mr-4 md:mt-4 md:ml- relative">
+                                    {/* Overlay to disable click events */}
+                                    <div className="absolute inset-0 z-10" style={{ pointerEvents: 'none' }}></div>
+                                    <MovieCard
+                                        movie={{
+                                            id: movieDetails.id,
+                                            title: movieDetails.title,
+                                            poster_path: movieDetails.poster_path,
+                                            vote_average: movieDetails.vote_average,
+                                            overview: movieDetails.overview
+                                        }}
+                                        isFav={isFav}
+                                    />
                                 </div>
 
                                 <div className="md:w-2/3">
@@ -170,7 +164,6 @@ function PageSingle() {
                     </SingleMovieDetails>
                     </section>
 
-                    {/* <TrailerData id={id} /> */}
                     <section className="actors-container">
                         <h2 className="text-center mt-5">Cast</h2>
                         <section className=" px-2 py-3 flex justify-center">
@@ -181,8 +174,6 @@ function PageSingle() {
             )}
         </div>
     );
-
-
 }
 
 export default PageSingle;
