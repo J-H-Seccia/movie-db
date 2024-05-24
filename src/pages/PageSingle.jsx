@@ -110,24 +110,26 @@ function PageSingle() {
             ) : (
                 <>
                     <section className="wrapper-single bg-copy py-5">
-                    <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
-                            <div className="relative md:flex md:flex-rowmt-2 px-5 py-5">
+                        <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
+                            <div className="relative md:flex md:flex-row mt-2 px-5 py-5">
                                 <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline md:hidden text-center">
                                     {movieDetails.title}
                                 </h1>
-                                <div className="md:w-1/3 md:mr-4 md:mt-4 md:ml- relative">
+                                <div className="relative md:w-1/3 md:mr-4 md:mt-4 md:ml-0 mx-auto my-4 flex justify-center" style={{maxWidth: 'calc(100% - 20px)'}}>
                                     {/* Overlay to disable click events */}
                                     <div className="absolute inset-0 z-10" style={{ pointerEvents: 'none' }}></div>
-                                    <MovieCard
-                                        movie={{
-                                            id: movieDetails.id,
-                                            title: movieDetails.title,
-                                            poster_path: movieDetails.poster_path,
-                                            vote_average: movieDetails.vote_average,
-                                            overview: movieDetails.overview
-                                        }}
-                                        isFav={isFav}
-                                    />
+                                    <div className="relative" style={{ pointerEvents: 'auto' }}>
+                                        <MovieCard
+                                            movie={{
+                                                id: movieDetails.id,
+                                                title: movieDetails.title,
+                                                poster_path: movieDetails.poster_path,
+                                                vote_average: movieDetails.vote_average,
+                                                overview: movieDetails.overview
+                                            }}
+                                            isFav={isFav}
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="md:w-2/3">
@@ -135,7 +137,7 @@ function PageSingle() {
                                         {movieDetails.title}
                                     </h1>
 
-                                    <section className="px-2 py-3  bg-black bg-opacity-50 rounded-lg">
+                                    <section className="px-2 py-3 bg-black bg-opacity-50 rounded-lg">
                                         <ExpandText text={movieDetails.overview} initialWordLimit={20} />
                                         <section className="mb-3">
                                             <div className="grid grid-cols-2 gap-x-4">
@@ -150,23 +152,22 @@ function PageSingle() {
                                                 <p className="mt-4">Genres:</p>
                                                 <p className="mt-4 text-primary">{movieDetails.genres}</p>
                                                 <p className="mt-4">Production Country:</p>
-                                            <p className="mt-4 text-primary">{movieDetails.production_country}</p>
-                                            <p className="mt-4">Trailers:</p>
-                                            <div className="mt-4 flex justify-start">
-                                                <TrailerData id={id} />
-                                            </div>
-
+                                                <p className="mt-4 text-primary">{movieDetails.production_country}</p>
+                                                <p className="mt-4">Trailers:</p>
+                                                <div className="mt-4 flex justify-start">
+                                                    <TrailerData id={id} />
+                                                </div>
                                             </div>
                                         </section>
                                     </section>
                                 </div>
                             </div>
-                    </SingleMovieDetails>
+                        </SingleMovieDetails>
                     </section>
 
                     <section className="actors-container">
                         <h2 className="text-center mt-5">Cast</h2>
-                        <section className=" px-2 py-3 flex justify-center">
+                        <section className="px-2 py-3 flex justify-center">
                             <ExpandCast cast={movieDetails.cast} initialShowCount={10} />
                         </section>
                     </section>
