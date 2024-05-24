@@ -1,12 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { appTitle } from "../globals/globalVariables";
 import tmdbLogo from "../images/tmdb-logo.svg";
 import ActorFallback from "../components/FallBackProfile";
+import LoadingScreen from "../components/LoadingScreen";
 
 function PageAbout() {
+    const [loading, setLoading] = useState(true);
+
     // Page Title
     useEffect(() => {
         document.title = `About | ${appTitle}`;
+    }, []);
+
+    // loading screen
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false);
+        }, 500);
     }, []);
 
     // storing team members info in an array of objects for DRY
@@ -28,6 +38,10 @@ function PageAbout() {
             description: "Carol's dedication to crafting immersive digital experiences is evident in every project she delivers. Carol's keen eye for design and knack for problem-solving make her a valuable asset to any team."
         }
     ];
+
+    if (loading) {
+        return <LoadingScreen />;
+    }
 
     return (
         <div className="text-white">
