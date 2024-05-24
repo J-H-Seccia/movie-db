@@ -37,10 +37,16 @@ export default {
         'sans': ['Open Sans', 'sans-serif'], // Default font family
         'serif': ['Sanchez', 'serif'], // Optional font family
       },
+      screens: {
+        'lg-980': '980px', // Custom breakpoint for PageSingle.jsx
+      },
     },
   },
   plugins: [],
 }
+
+// custom breakpoint for PageSingle.jsx
+
 
 // module.exports = {
 //   theme: {

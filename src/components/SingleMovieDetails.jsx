@@ -1,19 +1,24 @@
 import React from 'react';
-import {imageBaseURL } from "../globals/globalVariables"
+import { imageBaseURL } from "../globals/globalVariables"
 
-function MovieDetails({ backdropPath, children }) {
+function SingleMovieDetails({ backdropPath, children }) {
     const backgroundStyle = {
         backgroundImage: `url(${imageBaseURL}w1280${backdropPath})`,
         opacity: 0.3,
-        backdropFilter: 'blur(10px)'
+        backdropFilter: 'blur(10px)',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center',
+        backgroundSize: 'cover'
     };
 
     return (
         <div className="movie-details mx-auto pt-2 relative lg:max-w-5xl">
-            <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-lg" style={backgroundStyle}></div>
+            {/* Background image */}
+            <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-lg lg:hidden" style={backgroundStyle}></div>
+            {/* Content */}
             {children}
         </div>
     );
 }
 
-export default MovieDetails;
+export default SingleMovieDetails;
