@@ -14,7 +14,7 @@ function SingleMovieDetails({ backdropPath, children }) {
     return (
         <div className="movie-details mx-auto pt-2 relative lg:max-w-5xl">
             {/* Background image */}
-            <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-lg lg:hidden" style={backgroundStyle}></div>
+            <div className="absolute inset-0 bg-black bg-opacity-40 backdrop-blur-lg" style={backgroundStyle}></div>
             {/* Content */}
             {children}
         </div>
