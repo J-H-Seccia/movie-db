@@ -27,16 +27,18 @@ function ExpandCast({ cast }) {
         <div>
             <div className={`grid gap-4 grid-cols-2 md:grid-cols-3`}>
                 {displayedCast.map(actor => (
-                    <div key={actor.name} className=" bg-black bg-opacity-50 p-2 flex flex-col items-center rounded w-[140px] md:w-[225px] lg:w-[332px]">
-                        {actor.image ? (
-                            <img
-                                src={actor.image}
-                                alt={actor.name}
-                                className="w-[130px] md:w-[205px] lg:w-[312px] h-auto object-cover rounded mb-2 "
-                            />
-                        ) : (
-                            <ActorFallback />
-                        )}
+                    <div key={actor.name} className="bg-black bg-opacity-50 p-2 flex flex-col items-center rounded w-[140px] md:w-[225px] lg:w-[332px]">
+                        <div className="flex-grow flex items-end">
+                            {actor.image ? (
+                                <img
+                                    src={actor.image}
+                                    alt={actor.name}
+                                    className="w-[130px] md:w-[205px] lg:w-[312px] h-auto object-cover rounded mb-2"
+                                />
+                            ) : (
+                                <ActorFallback />
+                            )}
+                        </div>
                         <p className="text-center text-white">{actor.name}</p>
                     </div>
                 ))}
