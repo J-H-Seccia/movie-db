@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { appTitle, apiKey, endPointSearch, endPointMovieCredits, imageBaseURL } from "../globals/globalVariables";
+import { appTitle, apiKey, endPointSearch, endPointMovieCredits } from "../globals/globalVariables";
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ExpandText from '../components/ExpandText';
 import MovieCard from '../components/MovieCard';
-// import { FavButton } from '../components/FavButton';
 import TrailerData from '../components/TrailerData';
-// import { addFav, deleteFav } from '../features/favs/favsSlice';
 import ExpandCast from '../components/ExpandCast';
 import SingleMovieDetails from '../components/SingleMovieDetails';
 
@@ -55,7 +53,7 @@ function PageSingle() {
                 }));
 
                 setMovieDetails({
-                    id: data.id,  // Make sure to set the ID here
+                    id: data.id,
                     title: data.title,
                     overview: truncateOverview(data.overview),
                     release_date: data.release_date ? data.release_date : "Not Available",
