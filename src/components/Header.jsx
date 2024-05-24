@@ -2,7 +2,7 @@ import Nav from './Nav';
 import { NavLink } from "react-router-dom";
 function Header() {
     return (
-        <div className="header bg-copy sticky top-0 z-[40] mx-auto flex flex-wrap w-full items-center justify-between border-b border-copy-lighter p-8 font-serif">
+        <div className="header bg-copy bg-opacity-75 sticky top-0 z-[40] mx-auto flex flex-wrap w-full items-center justify-between border-b border-primary p-8 font-serif">
             <NavLink to="/" className="cursor-pointer">
                 <Logo />
             </NavLink>

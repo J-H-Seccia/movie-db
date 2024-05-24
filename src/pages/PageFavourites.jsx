@@ -14,7 +14,7 @@ function PageFavourites() {
     return (
         <>
         <section className="favourites-wrapper bg-copy text-white text-center">
-            <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline">
+            <h1 className="text-3xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline">
                 Favourites
             </h1>
             {favs.length < 1 ?

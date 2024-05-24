@@ -67,7 +67,6 @@ function MovieCard({ movie, isFav, style }) {
                     width: CARD_WIDTH,
                     height: CARD_HEIGHT,
                     margin: MARGIN,
-                    //backgroundImage: `url(${imageBaseURL}w1280${movie.poster_path})`,
                     backgroundImage: `url(${MovieFallback})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
@@ -92,10 +91,10 @@ function MovieCard({ movie, isFav, style }) {
                     />
                 )}
                 {isHovered && !setMediaQueryForLarge() && (
-                    <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
-                        <span className="text-m font-semibold uppercase text-violet-300">Rating: {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
-                        <p className="my-2 text-3xl font-bold">{movie.title}</p>
-                        <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
+                    <div className="absolute inset-0 z-20 overflow-hidden rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
+                        <span className="text-sm font-semibold uppercase text-violet-300">Rating: {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
+                        <p className="my-2 text-xl font-bold">{movie.title}</p>
+                        <p className="text-base text-slate-300">{truncateOverview(movie.overview)}</p>
                     </div>
                 )}
             </div>

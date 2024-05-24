@@ -121,11 +121,6 @@ function PageHome() {
 
     return (
         <div>
-
-            {/* <div className="device-detection">
-                <DeviceDetection />
-            </div> */}
-
             <SwipeCarousel backdropImgs={backdropImgs} movieInfo={popularCarousel}/>
 
             <div className="category-tabs">
@@ -153,12 +148,7 @@ function PageHome() {
                 />
             </div>
             )}
-
-
         </div>
-
-
-
      );
 }
 

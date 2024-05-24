@@ -24,6 +24,7 @@ export default {
         copy: "#171717",
         "copy-light": "#636869",
         "copy-lighter": "#898e8f",
+        "copy-dark": "#0F0F0F",
 
         success: "#05c105",
         warning: "#c1c105",
