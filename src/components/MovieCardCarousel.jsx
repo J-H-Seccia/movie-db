@@ -44,8 +44,8 @@ const MovieCardCarousel = ({movieInfo, selectedCategory, favs}) => {
   };
 
   return (
-    <section className="bg-slate-100" ref={ref}>
-      <div className="relative overflow-hidden p-4 bg-black">
+    <section ref={ref}>
+      <div className="relative overflow-hidden p-4 bg-copy-dark">
         {/* CARDS */}
         <div className="mx-auto max-w-6xl">
           <p className="mb-4 text-2xl font-semibold text-white">
@@ -58,7 +58,10 @@ const MovieCardCarousel = ({movieInfo, selectedCategory, favs}) => {
             className="flex justify-start"
           >
             {movieInfo.map((movie) => {
-              return <MovieCard key={movie.id} movie={movie} isFav={isFav(favs, null, movie.id)}/>;
+              return <MovieCard 
+                key={movie.id} 
+                movie={movie} 
+                isFav={isFav(favs, null, movie.id)}/>;
             })}
           </motion.div>
         </div>

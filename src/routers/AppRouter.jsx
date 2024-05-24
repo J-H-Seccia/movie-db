@@ -21,7 +21,7 @@ function AppRouter() {
     return (
         <BrowserRouter>
 
-            <div className="wrapper">
+            <div className="wrapper bg-bg-pattern bg-cover">
                 <Header />
                     <main>
                         <Routes>

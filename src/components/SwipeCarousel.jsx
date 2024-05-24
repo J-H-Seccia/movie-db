@@ -54,11 +54,8 @@ export const SwipeCarousel = ({ backdropImgs, movieInfo }) => {
         }
     }
 
-
-    
-
     return (
-    <div className="relative overflow-hidden bg-copy py-6">
+    <div className="relative overflow-hidden py-6">
         <motion.div 
         drag="x"
         dragConstraints={{

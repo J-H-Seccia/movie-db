@@ -1,10 +1,12 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
+import useDeviceDetection from "../utils/useDeviceDetection";
 
 const tabs = ["Now Playing", "Popular", "Top Rated", "Upcoming"];
 
 const CategoryTabs = ({handleChangeCategory}) => {
   const [selected, setSelected] = useState(tabs[0]);
+  const device = useDeviceDetection();
 
   const handleTabClick = (tab) => {
     setSelected(tab);
@@ -12,16 +14,34 @@ const CategoryTabs = ({handleChangeCategory}) => {
   };
 
   return (
-    <div className="flex flex-col justify-center px-4 py-14 bg-neutral-900 items-center gap-2">
-      {tabs.map((tab) => (
-        <Chip
-          text={tab}
-          selected={selected === tab}
-          onClick={() => handleTabClick(tab)}
-          key={tab}
-        />
-      ))}
-    </div>
+    <>
+      {device === "Mobile" ? (
+        // if on mobile, display tabs vertically
+        <div className="flex flex-col justify-center px-4 py-14  items-center gap-2 bg-copy">
+          {tabs.map((tab) => (
+            <Chip
+              text={tab}
+              selected={selected === tab}
+              onClick={() => handleTabClick(tab)}
+              key={tab}
+            />
+          ))}
+        </div>
+      ) : (
+        
+        // if on desktop, display tabs horizontally
+        <div className="flex justify-center px-4 py-14  items-center gap-2 bg-copy">
+          {tabs.map((tab) => (
+            <Chip
+              text={tab}
+              selected={selected === tab}
+              onClick={() => handleTabClick(tab)}
+              key={tab}
+            />
+          ))}
+        </div>
+      )}
+    </>
   );
 };
 

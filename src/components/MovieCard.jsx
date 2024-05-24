@@ -8,11 +8,11 @@ import MovieFallback from '../images/movieFallback.svg';
 
 
 
-const CARD_WIDTH = 300;
+const CARD_WIDTH = 280;
 const CARD_HEIGHT = 420;
-const MARGIN = 10;
+const MARGIN = 20;
 
-function MovieCard({ movie, isFav }) {
+function MovieCard({ movie, isFav, style }) {
     const [isHovered, setIsHovered] = useState(false);
     const [isInfoVisible, setIsInfoVisible] = useState(false);
     const dispatch = useDispatch();
@@ -58,7 +58,7 @@ function MovieCard({ movie, isFav }) {
     const setMediaQueryForLarge = () => window.innerWidth >= 1280;
 
     return (
-        <div>
+        <div style={style}>
             <Link to={`/movie/${movie.id}`}>
             <div
                 ref={cardRef}
@@ -67,11 +67,12 @@ function MovieCard({ movie, isFav }) {
                     width: CARD_WIDTH,
                     height: CARD_HEIGHT,
                     margin: MARGIN,
-                    //backgroundImage: `url(${imageBaseURL}w1280${movie.poster_path})`,
                     backgroundImage: `url(${MovieFallback})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
+                    ...style
                 }}
+                
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
                 onClick={toggleInfoVisibility}
@@ -90,10 +91,10 @@ function MovieCard({ movie, isFav }) {
                     />
                 )}
                 {isHovered && !setMediaQueryForLarge() && (
-                    <div className="absolute inset-0 z-20 rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
-                        <span className="text-m font-semibold uppercase text-violet-300">Rating: {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
-                        <p className="my-2 text-3xl font-bold">{movie.title}</p>
-                        <p className="text-lg text-slate-300">{truncateOverview(movie.overview)}</p>
+                    <div className="absolute inset-0 z-20 overflow-hidden rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
+                        <span className="text-sm font-semibold uppercase text-violet-300">Rating: {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
+                        <p className="my-2 text-xl font-bold">{movie.title}</p>
+                        <p className="text-base text-slate-300">{truncateOverview(movie.overview)}</p>
                     </div>
                 )}
             </div>
@@ -101,9 +102,16 @@ function MovieCard({ movie, isFav }) {
 
             <div className="btn-fav absolute z-30 text-white">
                 {isFav ?
-                    <FavButton movieObj={movie} remove={true} handleFavClick={handleFavClick} />
+                    <FavButton movieObj={movie} 
+                               remove={true} 
+                               handleFavClick={handleFavClick}
+                               style={{ bottom: '0', left: '0.5rem' }} 
+                               />
                     :
-                    <FavButton movieObj={movie} handleFavClick={handleFavClick} />
+                    <FavButton movieObj={movie} 
+                               handleFavClick={handleFavClick} 
+                               style={{ bottom: '0', left: '0.5rem' }}
+                               />
                 }
             </div>
         </div>
