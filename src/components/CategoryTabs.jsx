@@ -17,7 +17,7 @@ const CategoryTabs = ({handleChangeCategory}) => {
     <>
       {device === "Mobile" ? (
         // if on mobile, display tabs vertically
-        <div className="flex flex-col justify-center px-4 py-14 bg-neutral-900 items-center gap-2">
+        <div className="flex flex-col justify-center px-4 py-14  items-center gap-2 bg-copy">
           {tabs.map((tab) => (
             <Chip
               text={tab}
@@ -30,7 +30,7 @@ const CategoryTabs = ({handleChangeCategory}) => {
       ) : (
         
         // if on desktop, display tabs horizontally
-        <div className="flex justify-center px-4 py-14 bg-neutral-900 items-center gap-2">
+        <div className="flex justify-center px-4 py-14  items-center gap-2 bg-copy">
           {tabs.map((tab) => (
             <Chip
               text={tab}
