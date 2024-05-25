@@ -32,7 +32,7 @@ function ExpandFavourites({ favourites }) {
     };
 
     const shouldShowButton = () => {
-        if (screenSize >= 1200) return favourites.length > 4;
+        if (screenSize >= 1280) return favourites.length > 4;
         if (screenSize >= 980) return favourites.length > 3;
         if (screenSize >= 768) return favourites.length > 2;
         return favourites.length > 1;
@@ -41,7 +41,7 @@ function ExpandFavourites({ favourites }) {
     return (
         <div>
             <div className={`grid gap-4 ${
-                screenSize >= 1200
+                screenSize >= 1280
                 ? 'grid-cols-4'
                 : screenSize >= 980
                 ? 'grid-cols-3'
