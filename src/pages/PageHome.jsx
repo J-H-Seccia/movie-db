@@ -8,6 +8,7 @@ import MovieCardOneColumn from "../components/MovieCardOneColumn";
 import { useSelector } from "react-redux";
 import useDeviceDetection from "../utils/useDeviceDetection";
 import LoadingScreen from "../components/LoadingScreen";
+import useLoadingTime from "../utils/useLoadingTime";
 
 const CATEGORIES = {
     nowPlaying: 'Now Playing',
@@ -22,7 +23,8 @@ function PageHome() {
     const [selectedCategory, setSelectedCategory] = useState(CATEGORIES.nowPlaying);
     const [popularCarousel, setPopularCarousel] = useState(null);
     const [backdropImgs, setBackdropImgs] = useState(null);
-    const [loading, setLoading] = useState(true);
+
+    const [loading, startLoading, stopLoading] = useLoadingTime();
     const [error, setError] = useState(null);
     const device = useDeviceDetection();
 
@@ -30,22 +32,15 @@ function PageHome() {
         return state.favs.items;
     });
 
-
     //Page Title
     useEffect( () => {
         document.title = `Home | ${appTitle}`;
     }, []);
 
-    // loading screen
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false);
-        }, 500);
-    }, []);
-
     useEffect(() => {
         // Fetch popular movies for hero section carousel
         const fetchPopularCarousel = async () => {
+            startLoading();
             try {
                 const response = await fetch(`${endPointPopular}?api_key=${apiKey}`);
                 const data = await response.json();
@@ -57,6 +52,7 @@ function PageHome() {
             } catch (error) {
                 setError("Failed to fetch popular movies. Please try again later.");
             }
+            stopLoading();
         };
     
         fetchPopularCarousel(); // Call the function to fetch popular movies initially
@@ -97,7 +93,10 @@ function PageHome() {
             }
         };
         
-        fetchMoviesByCategory(); // Call the function to fetch movies when selectedCategory changes
+        if (selectedCategory) {
+            fetchMoviesByCategory();
+        }
+
     }, [selectedCategory]);
 
     //Handle function for when a user clicks a different category
@@ -122,24 +121,34 @@ function PageHome() {
         buildBackdropPaths();
     }, [popularCarousel]);
 
-    if (loading) {
-        return <LoadingScreen />;
-    }
-
     return (
         <div>
+
+            {/* Loading Screen */}
+            {loading && 
+                <LoadingScreen />}
+
+            {/* errors */}
+            {error && 
+                <div className="bg-copy text-foreground min-h-screen">
+                    <div className="text-center py-5">
+                        <h1 className="text-2xl font-bold mb-2">Error</h1>
+                        <p>{error}</p>
+                    </div>
+                </div>}
         
-            {/* Hero Carousel */}
-            <SwipeCarousel backdropImgs={backdropImgs} movieInfo={popularCarousel}/>
-
-            {/* Category Tabs */}
-            <CategoryTabs handleChangeCategory={handleChangeCategory}/>
-
-            {/* Error message */}
-            {error && <div className="text-white text-center">{error}</div>}
             
             {/* Content */}
                 <>
+                    {/* Hero Carousel */}
+                    <SwipeCarousel 
+                        backdropImgs={backdropImgs} 
+                        movieInfo={popularCarousel}/>
+
+                    {/* Category Tabs */}
+                    <CategoryTabs 
+                        handleChangeCategory={handleChangeCategory}/>
+
                     {/* Mobile view */}
                     {device === 'Mobile' && (
                         <div className="card-flex">

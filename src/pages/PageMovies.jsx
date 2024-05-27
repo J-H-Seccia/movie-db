@@ -2,15 +2,22 @@ import { useEffect, useState } from "react";
 import { appTitle, apiKey, listOfGenres, movieGenreBaseURL, movieGenreBaseURLAfterAPI } from "../globals/globalVariables";
 import MovieCardGrid from '../components/MovieCardGrid';
 import { useSelector } from "react-redux";
+import LoadingScreen from "../components/LoadingScreen";
+import useLoadingTime from "../utils/useLoadingTime";
 
 function PageMovies() {
+    // state to store movies and genre
     const [movies, setMovies] = useState([]);
     const [genre, setGenre] = useState([]);
+
     // default movie genre is action
     const [selectedGenre, setSelectedGenre] = useState(28);
 
-    const [loading, setLoading] = useState(false);
+    // loading and error states
+    const [loading, startLoading, stopLoading] = useLoadingTime();
     const [error, setError] = useState(null);
+
+    // setting favs from redux store
     const favs = useSelector((state) => {
         return state.favs.items;
     });
@@ -23,7 +30,7 @@ function PageMovies() {
     // if no errors, set genre from the fetched data
     useEffect(() => {
         const fetchGenre = async () => {
-            setLoading(true);
+            startLoading();
             try {
                 const response = await fetch(`${listOfGenres}?api_key=${apiKey}`);
                 const data = await response.json();
@@ -33,7 +40,7 @@ function PageMovies() {
             } catch (error) {
                 setError(error);
             }
-            setLoading(false);
+            stopLoading();
         };
 
         fetchGenre();
@@ -42,7 +49,7 @@ function PageMovies() {
     // fetching movies by genre using selected genre id
     useEffect(() => {
         const fetchMoviesByGenre = async () => {
-            setLoading(true);
+            startLoading();
             try {
                 // this is how you build the url for fetching movies by genre: https://api.themoviedb.org/3/discover/movie?api_key=69bba2f5467e7c956ecaaa7af1cc21a6&with_genres=28
                 // where 28 is the id for action movies
@@ -59,12 +66,14 @@ function PageMovies() {
             } catch (error) {
                 setError("Failed to fetch movies. Please try again later.");
             } finally {
-                setLoading(false);
+                stopLoading();
             }
         };
 
         // fetch movies by genre only if a genre is selected – hence the selectedGenre in dependency array
-        fetchMoviesByGenre();
+        if (selectedGenre) {
+            fetchMoviesByGenre();
+        }
     }, [selectedGenre]);
 
     // a simple function to handle genre change
@@ -74,8 +83,19 @@ function PageMovies() {
 
     return (
         <div>
-            {loading && <div className="text-white text-center">Loading...</div>}
-            {error && <div className="text-white text-center">{error}</div>}
+            {/* Loading Screen */}
+            {loading && 
+                <LoadingScreen />}
+
+            {/* errors */}
+            {error && 
+                <div className="bg-copy text-foreground min-h-screen">
+                    <div className="text-center py-5">
+                        <h1 className="text-2xl font-bold mb-2">Error</h1>
+                        <p>{error}</p>
+                    </div>
+                </div>}
+
             {!loading && !error && (
                             <div className="movie-container">
                             <div className="outer-flex flex justify-center m-6">
