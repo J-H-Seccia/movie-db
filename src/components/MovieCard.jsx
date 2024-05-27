@@ -6,8 +6,6 @@ import { addFav, deleteFav } from '../features/favs/favsSlice';
 import { FavButton } from './FavButton';
 import MovieFallback from '../images/movieFallback.svg';
 
-
-
 const CARD_WIDTH = 280;
 const CARD_HEIGHT = 420;
 const MARGIN = 20;
@@ -90,7 +88,7 @@ function MovieCard({ movie, isFav, style }) {
                         className="bg-blue-200 object-scale-down"
                     />
                 )}
-                {isHovered && !setMediaQueryForLarge() && (
+                {isHovered && setMediaQueryForLarge() && (
                     <div className="absolute inset-0 z-20 overflow-hidden rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
                         <span className="text-sm font-semibold uppercase text-violet-300">Rating: {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
                         <p className="my-2 text-xl font-bold">{movie.title}</p>
