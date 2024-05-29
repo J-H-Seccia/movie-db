@@ -15,7 +15,7 @@ function PageFavourites() {
 
     return (
         <>
-            <section className="favourites-wrapper bg-copy text-white text-center relative min-h-[calc(100vh-8rem)] w-full">
+            <section className="favourites-wrapper text-white text-center relative min-h-[calc(100vh-8rem)] w-full">
                 <h1 className="text-3xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline">
                     Favourites
                 </h1>

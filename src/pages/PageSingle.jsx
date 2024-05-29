@@ -10,7 +10,6 @@ import SingleMovieDetails from '../components/SingleMovieDetails';
 import LoadingScreen from "../components/LoadingScreen";
 import useLoadingTime from "../utils/useLoadingTime";
 
-
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
         return "Overview: Not Provided";
@@ -92,14 +91,6 @@ function PageSingle() {
         }
     };
 
-    // const handleFavClick = (addToFav, movieObj) => {
-    //     if (addToFav) {
-    //         dispatch(addFav(movieObj));
-    //     } else {
-    //         dispatch(deleteFav(movieObj));
-    //     }
-    // };
-
     const isFav = favs.some(fav => fav.id === movieDetails.id);
 
     if (loading) {
@@ -108,7 +99,7 @@ function PageSingle() {
 
     if (error) {
         return (
-            <div className="bg-copy text-foreground min-h-screen">
+            <div className=" text-foreground min-h-screen">
                 <div className="text-center py-5">
                     <h1 className="text-2xl font-bold mb-2">Error</h1>
                     <p>{error}</p>
@@ -118,7 +109,7 @@ function PageSingle() {
     }
 
     return (
-        <div className="bg-copy text-foreground min-h-screen">
+        <div className=" text-foreground min-h-screen">
 
             {/* Loading Screen */}
             {loading && 
@@ -126,7 +117,7 @@ function PageSingle() {
 
             {/* errors */}
             {error && 
-                <div className="bg-copy text-foreground min-h-screen">
+                <div className=" text-foreground min-h-screen">
                     <div className="text-center py-5">
                         <h1 className="text-2xl font-bold mb-2">Error</h1>
                         <p>{error}</p>
@@ -134,7 +125,7 @@ function PageSingle() {
                 </div>}
          
             <>
-              <section className="wrapper-single bg-copy py-5">
+              <section className="wrapper-single py-5 bg-black">
                 {/* Update to use the updated SingleMovieDetails component */}
                 <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
                   <div className="relative lg-980:flex lg-980:flex-row mt-2 px-5 py-5">
@@ -192,7 +183,7 @@ function PageSingle() {
               </section>
 
               <section className="actors-container">
-                <h2 className="text-center mt-5">Cast</h2>
+                <h2 className="text-2xl text-center mt-5">Cast</h2>
                 <section className="px-2 py-3 flex justify-center">
                   <ExpandCast cast={movieDetails.cast} initialShowCount={10} />
                 </section>

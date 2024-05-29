@@ -9,7 +9,6 @@ function PageAbout() {
         document.title = `About | ${appTitle}`;
     }, []);
 
-
     // storing team members info in an array of objects for DRY
     const teamMembers = [
         {
@@ -31,10 +30,11 @@ function PageAbout() {
     ];
 
     return (
-        <div className="text-white">
+        <div className="text-white max-w-5xl m-auto">
             <header className="text-center pt-4">
                 <h1 className="text-3xl font-bold uppercase">About</h1>
             </header>
+
             <section className="p-4">
                 <div className="grid gap-6">
                     <p className="text-lg">
@@ -69,7 +69,7 @@ function PageAbout() {
                     ))}
                 </article>
 
-                    <div className="m-4 mt-8 flex flex-col gap-4">
+                    <div className="m-4 mt-8 flex flex-wrap gap-4">
                        
                         <a href="https://www.themoviedb.org/">
                             <img src={tmdbLogo} alt="TMDB Logo" className="w-full mx-auto sm:ml-0" />

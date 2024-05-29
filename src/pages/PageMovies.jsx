@@ -97,31 +97,31 @@ function PageMovies() {
                 </div>}
 
             {!loading && !error && (
-                            <div className="movie-container">
-                            <div className="outer-flex flex justify-center m-6">
-                                <div className="inner-flex">
-                                    <h1 className="text-3xl font-bold text-center text-white p-4 border-4 border-double rounded-2xl uppercase">
-                                        Browse Movies by Genre
-                                    </h1>
-                                </div>
-                            </div>
-                           
-                            <div className="flex justify-center">
-                                <select
-                                    onChange={(e) => handleChangeGenre(e.target.value)}
-                                    value={selectedGenre}
-                                    className="p-2 rounded-md border-2 border-primary bg-copy text-white"
-                                >
-                                    {genre.map((genre) => (
-                                        <option value={genre.id} key={genre.id}>
-                                            {genre.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-            
-                           <MovieCardGrid movies={movies} favs={favs} />
+                <div className="movie-container max-w-screen-lg m-auto">
+                    <div className="outer-flex flex justify-center m-6">
+                        <div className="inner-flex">
+                            <h1 className="text-3xl font-bold text-center text-white p-4 border-4 border-double rounded-2xl uppercase">
+                                Browse Movies by Genre
+                            </h1>
                         </div>
+                    </div>
+                    
+                    <div className="flex justify-center">
+                        <select
+                            onChange={(e) => handleChangeGenre(e.target.value)}
+                            value={selectedGenre}
+                            className="p-2 rounded-md border-2 border-primary bg-copy text-white"
+                        >
+                            {genre.map((genre) => (
+                                <option value={genre.id} key={genre.id}>
+                                    {genre.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <MovieCardGrid movies={movies} favs={favs} />
+            </div>
             )}
 
         </div>
