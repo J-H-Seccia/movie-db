@@ -108,7 +108,6 @@ function PageSingle() {
           ) : (
             <>
               <section className="wrapper-single bg-copy py-5">
-                {/* Update to use the updated SingleMovieDetails component */}
                 <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
                   <div className="relative lg-980:flex lg-980:flex-row mt-2 px-5 py-5">
                     <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline lg-980:hidden text-center">
