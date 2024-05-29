@@ -23,6 +23,13 @@ function ExpandCast({ cast }) {
         setShowAll(!showAll);
     };
 
+    const truncateName = (name) => {
+        if (name.length > 13) {
+            return `${name.slice(0, 13)}...`;
+        }
+        return name;
+    };
+
     return (
         <div>
             <div className={`grid gap-4 grid-cols-2 md:grid-cols-3`}>
@@ -39,7 +46,13 @@ function ExpandCast({ cast }) {
                                 <ActorFallback />
                             )}
                         </div>
-                        <p className="text-center text-white">{actor.name}</p>
+                        <p
+                            className={`text-center text-white ${
+                                isMobile && actor.name.length > 13 ? 'text-sm' : ''
+                            }`}
+                        >
+                            {isMobile ? truncateName(actor.name) : actor.name}
+                        </p>
                     </div>
                 ))}
             </div>
