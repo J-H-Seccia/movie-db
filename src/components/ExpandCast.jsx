@@ -23,6 +23,7 @@ function ExpandCast({ cast }) {
         setShowAll(!showAll);
     };
 
+    // truncate the actor's name if the actor's name has more than 13 character so as not to skew the size of the actor card (and make the font size smaller)
     const truncateName = (name) => {
         if (name.length > 13) {
             return `${name.slice(0, 13)}...`;
