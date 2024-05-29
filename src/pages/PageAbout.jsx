@@ -30,12 +30,12 @@ function PageAbout() {
     ];
 
     return (
-        <div className="text-white">
+        <div className="text-white p-16">
             <header className="text-center pt-4">
                 <h1 className="text-3xl font-bold uppercase">About</h1>
             </header>
-            <section className="p-4">
-                <div className="grid gap-6">
+            <section className="px-6 md:px-20 pt-4 md:pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <p className="text-lg">
                         At ScreenScape, we're passionate about films. Whether you're a casual moviegoer, a dedicated cinephile, or a filmmaker yourself, our platform is designed to cater to your every need.
                     </p>
@@ -56,22 +56,22 @@ function PageAbout() {
                     </p>
                 </div>
             </section>
-            <section className="p-4">
-                <h2 className="font-bold mb-4 text-2xl">Our Team Members</h2>
-                <article className="grid sm:grid-cols-2 gap-4">
+            <section className="px-6 md:px-20 pt-4 md:pt-6">
+                <h2 className="font-bold mb-4 mt-10 text-2xl">Our Team Members</h2>
+                <article className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {teamMembers.map((member, index) => (
                         <div key={index} className="flex flex-col items-center border-4 border-copy-lighter border-double p-4 rounded-3xl">
                             <ActorFallback />
-                            <p className="text-lg font-bold text-whitey">{member.name}</p>
-                            <p className="text-lg text-whitey">{member.description}</p>
+                            <p className="text-base md:text-lg lg:text-xl leading-relaxed text-whitey">{member.name}</p>
+                            <p className="text-base md:text-lg lg:text-xl leading-relaxed text-whitey">{member.description}</p>
                         </div>
                     ))}
                 </article>
 
-                    <div className="m-4 mt-8 flex flex-col gap-4">
+                    <div className="px-6 md:px-20 pt-4 md:pt-16">
                        
                         <a href="https://www.themoviedb.org/">
-                            <img src={tmdbLogo} alt="TMDB Logo" className="w-full mx-auto sm:ml-0" />
+                            <img src={tmdbLogo} alt="TMDB Logo" className="pb-8 w-64 mx-auto sm:ml-0" />
                         </a>
 
                         <p>
