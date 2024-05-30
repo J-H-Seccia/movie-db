@@ -45,7 +45,7 @@ const MovieCardCarousel = ({movieInfo, selectedCategory, favs}) => {
 
   return (
     <section ref={ref}>
-      <div className="relative overflow-hidden p-4 bg-copy-dark">
+      <div className="relative overflow-hidden p-8">
         {/* CARDS */}
         <div className="mx-auto max-w-6xl">
           <p className="mb-4 text-2xl font-semibold text-white">

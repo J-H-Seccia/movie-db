@@ -30,7 +30,7 @@ function PageAbout() {
     ];
 
     return (
-        <div className="text-white p-16">
+        <div className="text-white max-w-5xl m-auto">
             <header className="text-center pt-4">
                 <h1 className="text-3xl font-bold uppercase">About</h1>
             </header>
@@ -68,7 +68,7 @@ function PageAbout() {
                     ))}
                 </article>
 
-                    <div className="px-6 md:px-20 pt-4 md:pt-16">
+                    <div className="m-4 mt-8 flex flex-wrap gap-4">
                        
                         <a href="https://www.themoviedb.org/">
                             <img src={tmdbLogo} alt="TMDB Logo" className="pb-8 w-64 mx-auto sm:ml-0" />

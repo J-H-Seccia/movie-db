@@ -7,6 +7,8 @@ import MovieCard from '../components/MovieCard';
 import TrailerData from '../components/TrailerData';
 import ExpandCast from '../components/ExpandCast';
 import SingleMovieDetails from '../components/SingleMovieDetails';
+import LoadingScreen from "../components/LoadingScreen";
+import useLoadingTime from "../utils/useLoadingTime";
 
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
@@ -26,7 +28,7 @@ function PageSingle() {
     const dispatch = useDispatch();
     const favs = useSelector(state => state.favs.items);
     const [movieDetails, setMovieDetails] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [loading, startLoading, stopLoading] = useLoadingTime();
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -35,7 +37,7 @@ function PageSingle() {
 
     useEffect(() => {
         const fetchSingleMovie = async () => {
-            setLoading(true);
+            startLoading();
             try {
                 const api = `${endPointSearch}${id}?api_key=${apiKey}`;
                 const response = await fetch(api);
@@ -71,7 +73,7 @@ function PageSingle() {
             } catch (error) {
                 setError("Failed to fetch movie details. Please try again later.");
             } finally {
-                setLoading(false);
+                stopLoading();
             }
         };
 
@@ -89,25 +91,42 @@ function PageSingle() {
         }
     };
 
-    const handleFavClick = (addToFav, movieObj) => {
-        if (addToFav) {
-            dispatch(addFav(movieObj));
-        } else {
-            dispatch(deleteFav(movieObj));
-        }
-    };
-
     const isFav = favs.some(fav => fav.id === movieDetails.id);
 
+    if (loading) {
+        return <LoadingScreen />;
+    }
+
+    if (error) {
+        return (
+            <div className=" text-foreground min-h-screen">
+                <div className="text-center py-5">
+                    <h1 className="text-2xl font-bold mb-2">Error</h1>
+                    <p>{error}</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
-        <div className="bg-copy text-foreground min-h-screen">
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : (
+        <div className=" text-foreground min-h-screen">
+
+            {/* Loading Screen */}
+            {loading && 
+                <LoadingScreen />}
+
+            {/* errors */}
+            {error && 
+                <div className=" text-foreground min-h-screen">
+                    <div className="text-center py-5">
+                        <h1 className="text-2xl font-bold mb-2">Error</h1>
+                        <p>{error}</p>
+                    </div>
+                </div>}
+         
             <>
-              <section className="wrapper-single bg-copy py-5">
+              <section className="wrapper-single py-5 bg-black">
+                {/* Update to use the updated SingleMovieDetails component */}
                 <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
                   <div className="relative lg-980:flex lg-980:flex-row mt-2 px-5 py-5">
                     <h1 className="text-2xl md:text-3xl lg:text-5xl font-bold ml-10 mr-10 mb-2 py-4 uppercase no-underline lg-980:hidden text-center">
@@ -164,13 +183,12 @@ function PageSingle() {
               </section>
 
               <section className="actors-container">
-                <h2 className="text-center mt-5">Cast</h2>
+                <h2 className="text-2xl text-center mt-5">Cast</h2>
                 <section className="px-2 py-3 flex justify-center">
                   <ExpandCast cast={movieDetails.cast} initialShowCount={10} />
                 </section>
               </section>
             </>
-          )}
         </div>
       );
     }
