@@ -102,7 +102,7 @@ const Images = ({ imgIndex, backdropImgs, movieInfo }) => {
                         scale: imgIndex === idx ? 0.95 : 0.85,
                     }}
                     transition={SPRING_OPTIONS}
-                    className="aspect-[9/16] md:aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
+                    className="aspect-[9/12] md:aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
                 >
                     {/* Text overlay */}
                     {movieInfo && (
