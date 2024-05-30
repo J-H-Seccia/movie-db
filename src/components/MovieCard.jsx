@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { addFav, deleteFav } from '../features/favs/favsSlice';
 import { FavButton } from './FavButton';
 import MovieFallback from '../images/movieFallback.svg';
+import { truncateOverview } from "../utils/utilityFunctions";
 
 const CARD_WIDTH = 280;
 const CARD_HEIGHT = 420;
@@ -36,15 +37,6 @@ function MovieCard({ movie, isFav, style }) {
         } else {
             dispatch(deleteFav(movieObj));
         }
-    }
-
-    function truncateOverview(overview) {
-        if (!overview) {
-            return "Details Not Provided";
-        } else if (overview.length > 100) {
-            return overview.substring(0, 100) + '...';
-        }
-        return overview;
     }
 
     const toggleInfoVisibility = () => {

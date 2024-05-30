@@ -6,3 +6,12 @@ export const shuffleArray = (array) => {
     }
     return array;
 }
+
+export const truncateOverview = (overview) => {
+    if (!overview) {
+        return "Details Not Provided";
+    } else if (overview.length > 100) {
+        return overview.substring(0, 100) + '...';
+    }
+    return overview;
+}

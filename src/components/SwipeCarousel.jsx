@@ -1,6 +1,7 @@
 import { motion, useMotionValue } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { truncateOverview } from "../utils/utilityFunctions";
 
 
 const DRAG_BUFFER = 50;
@@ -101,20 +102,20 @@ const Images = ({ imgIndex, backdropImgs, movieInfo }) => {
                         scale: imgIndex === idx ? 0.95 : 0.85,
                     }}
                     transition={SPRING_OPTIONS}
-                    className="aspect-[9/16] md:aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
+                    className="aspect-[9/12] md:aspect-video w-screen shrink-0 rounded-xl bg-neutral-800 object-cover"
                 >
                     {/* Text overlay */}
                     {movieInfo && (
                         <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-black bg-opacity-50 text-white h-1/2">
 
                             <div className="title-rating-wrapper flex justify-between">
-                                <h3 className="text-xl font-bold ">{movieInfo[idx].title}</h3>
-                                <p className="text-base px-4">Rating: {movieInfo[idx].vote_average}</p>
+                                <h3 className="text-xl font-bold lg:text-3xl">{movieInfo[idx].title}</h3>
+                                <p className="text-base px-4 lg:text-2xl">Rating: {movieInfo[idx].vote_average.toFixed(1)}</p>
                             </div>
 
-                            <p className="text-base py-4">{movieInfo[idx].release_date}</p>
-                            <p className="text-base">{movieInfo[idx].overview}</p>
-                            <button className='p-4 rounded-full bg-sky-600 text-xl w-44 text-center absolute bottom-0 left-0 mx-4 my-2'
+                            <p className="text-base py-4 lg:text-2xl">{movieInfo[idx].release_date}</p>
+                            <p className="text-base lg:text-2xl">{truncateOverview(movieInfo[idx].overview)}</p>
+                            <button className='p-4 rounded-full bg-gradient-to-r from-primary via-primary-light to-primary text-xl w-44 text-center absolute bottom-0 left-0 mx-4 my-2'
                                 onClick={() => handleMoreInfo(movieInfo[idx].id)}
                                 >More Info</button>
                         </div>

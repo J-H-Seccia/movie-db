@@ -64,7 +64,7 @@ const Chip = ({
         <motion.span
           layoutId="pill-tab"
           transition={{ type: "spring", duration: 0.5 }}
-          className="absolute inset-0 z-0 bg-gradient-to-r from-violet-600 to-indigo-600 rounded-full"
+          className="absolute inset-0 z-0 bg-gradient-to-r from-primary via-primary-light to-primary rounded-full"
         ></motion.span>
       )}
     </button>
