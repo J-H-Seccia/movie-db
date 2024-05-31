@@ -9,6 +9,7 @@ function PageAbout() {
         document.title = `About | ${appTitle}`;
     }, []);
 
+
     // storing team members info in an array of objects for DRY
     const teamMembers = [
         {

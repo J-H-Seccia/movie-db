@@ -27,7 +27,8 @@ const MovieCardCarousel = ({movieInfo, selectedCategory, favs}) => {
   const CAN_SHIFT_LEFT = offset < 0;
 
   const CAN_SHIFT_RIGHT =
-    Math.abs(offset) < CARD_SIZE * (movieInfo.length - CARD_BUFFER);
+    Math.abs(offset + -3500) < CARD_SIZE * (movieInfo.length - CARD_BUFFER);
+    console.log(CARD_SIZE * (movieInfo.length - CARD_BUFFER))
 
   const shiftLeft = () => {
     if (!CAN_SHIFT_LEFT) {

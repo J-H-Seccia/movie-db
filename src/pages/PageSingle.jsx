@@ -7,6 +7,9 @@ import MovieCard from '../components/MovieCard';
 import TrailerData from '../components/TrailerData';
 import ExpandCast from '../components/ExpandCast';
 import SingleMovieDetails from '../components/SingleMovieDetails';
+import LoadingScreen from "../components/LoadingScreen";
+import useLoadingTime from "../utils/useLoadingTime";
+
 
 function truncateOverview(overview, wordLimit) {
     if (!overview) {
@@ -26,7 +29,7 @@ function PageSingle() {
     const dispatch = useDispatch();
     const favs = useSelector(state => state.favs.items);
     const [movieDetails, setMovieDetails] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [loading, startLoading, stopLoading] = useLoadingTime();
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -35,7 +38,7 @@ function PageSingle() {
 
     useEffect(() => {
         const fetchSingleMovie = async () => {
-            setLoading(true);
+            startLoading();
             try {
                 const api = `${endPointSearch}${id}?api_key=${apiKey}`;
                 const response = await fetch(api);
@@ -71,7 +74,7 @@ function PageSingle() {
             } catch (error) {
                 setError("Failed to fetch movie details. Please try again later.");
             } finally {
-                setLoading(false);
+                stopLoading();
             }
         };
 
@@ -89,23 +92,47 @@ function PageSingle() {
         }
     };
 
-    const handleFavClick = (addToFav, movieObj) => {
-        if (addToFav) {
-            dispatch(addFav(movieObj));
-        } else {
-            dispatch(deleteFav(movieObj));
-        }
-    };
+    // const handleFavClick = (addToFav, movieObj) => {
+    //     if (addToFav) {
+    //         dispatch(addFav(movieObj));
+    //     } else {
+    //         dispatch(deleteFav(movieObj));
+    //     }
+    // };
 
     const isFav = favs.some(fav => fav.id === movieDetails.id);
 
+    if (loading) {
+        return <LoadingScreen />;
+    }
+
+    if (error) {
+        return (
+            <div className="bg-copy text-foreground min-h-screen">
+                <div className="text-center py-5">
+                    <h1 className="text-2xl font-bold mb-2">Error</h1>
+                    <p>{error}</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-copy text-foreground min-h-screen">
-          {loading ? (
-            <p>Loading...</p>
-          ) : error ? (
-            <p>{error}</p>
-          ) : (
+
+            {/* Loading Screen */}
+            {loading && 
+                <LoadingScreen />}
+
+            {/* errors */}
+            {error && 
+                <div className="bg-copy text-foreground min-h-screen">
+                    <div className="text-center py-5">
+                        <h1 className="text-2xl font-bold mb-2">Error</h1>
+                        <p>{error}</p>
+                    </div>
+                </div>}
+         
             <>
               <section className="wrapper-single bg-copy py-5">
                 <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
@@ -170,7 +197,6 @@ function PageSingle() {
                 </section>
               </section>
             </>
-          )}
         </div>
       );
     }

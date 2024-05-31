@@ -5,8 +5,7 @@ import { useDispatch } from 'react-redux';
 import { addFav, deleteFav } from '../features/favs/favsSlice';
 import { FavButton } from './FavButton';
 import MovieFallback from '../images/movieFallback.svg';
-
-
+import { truncateOverview } from "../utils/utilityFunctions";
 
 const CARD_WIDTH = 280;
 const CARD_HEIGHT = 420;
@@ -38,15 +37,6 @@ function MovieCard({ movie, isFav, style }) {
         } else {
             dispatch(deleteFav(movieObj));
         }
-    }
-
-    function truncateOverview(overview) {
-        if (!overview) {
-            return "Details Not Provided";
-        } else if (overview.length > 100) {
-            return overview.substring(0, 100) + '...';
-        }
-        return overview;
     }
 
     const toggleInfoVisibility = () => {
@@ -90,7 +80,7 @@ function MovieCard({ movie, isFav, style }) {
                         className="bg-blue-200 object-scale-down"
                     />
                 )}
-                {isHovered && !setMediaQueryForLarge() && (
+                {isHovered && setMediaQueryForLarge() && (
                     <div className="absolute inset-0 z-20 overflow-hidden rounded-2xl bg-gradient-to-b from-black/90 via-black/60 to-black/0 p-6 text-white">
                         <span className="text-sm font-semibold uppercase text-violet-300">Rating: {movie.vote_average ? movie.vote_average.toFixed(1) : 'N/A'}</span>
                         <p className="my-2 text-xl font-bold">{movie.title}</p>
