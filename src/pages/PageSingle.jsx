@@ -121,18 +121,18 @@ function PageSingle() {
         <div className="bg-copy text-foreground min-h-screen">
 
             {/* Loading Screen */}
-            {loading && 
+            {loading &&
                 <LoadingScreen />}
 
             {/* errors */}
-            {error && 
+            {error &&
                 <div className="bg-copy text-foreground min-h-screen">
                     <div className="text-center py-5">
                         <h1 className="text-2xl font-bold mb-2">Error</h1>
                         <p>{error}</p>
                     </div>
                 </div>}
-         
+
             <>
               <section className="wrapper-single bg-copy py-5">
                 <SingleMovieDetails backdropPath={movieDetails.backdrop_path}>
@@ -153,6 +153,7 @@ function PageSingle() {
                             overview: movieDetails.overview
                           }}
                           isFav={isFav}
+                          disableHover={true}
                         />
                       </div>
                     </div>
