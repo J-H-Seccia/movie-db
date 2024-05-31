@@ -12,3 +12,7 @@ export const appStorageName = 'movie-app-favs';
 export const movieGenreBaseURL = "https://api.themoviedb.org/3/discover/movie";
 export const movieGenreBaseURLAfterAPI = "&with_genres=";
 export const listOfGenres = "https://api.themoviedb.org/3/genre/movie/list";
+
+const APP_FOLDER_NAME = "movie-db";
+const OTHER_GLOBAL = "other-global";
+export { APP_FOLDER_NAME, OTHER_GLOBAL}
