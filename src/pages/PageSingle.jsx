@@ -112,18 +112,18 @@ function PageSingle() {
         <div className=" text-foreground min-h-screen">
 
             {/* Loading Screen */}
-            {loading && 
+            {loading &&
                 <LoadingScreen />}
 
             {/* errors */}
-            {error && 
+            {error &&
                 <div className=" text-foreground min-h-screen">
                     <div className="text-center py-5">
                         <h1 className="text-2xl font-bold mb-2">Error</h1>
                         <p>{error}</p>
                     </div>
                 </div>}
-         
+
             <>
               <section className="wrapper-single py-5 bg-black">
                 {/* Update to use the updated SingleMovieDetails component */}
@@ -145,6 +145,7 @@ function PageSingle() {
                             overview: movieDetails.overview
                           }}
                           isFav={isFav}
+                          disableHover={true}
                         />
                       </div>
                     </div>
