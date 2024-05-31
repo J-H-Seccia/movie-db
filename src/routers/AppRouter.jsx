@@ -16,10 +16,12 @@ import PageNotFound from '../pages/PageNotFound';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+import { APP_FOLDER_NAME } from '../globals/globalVariables';
+
 
 function AppRouter() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={`/${APP_FOLDER_NAME}`}>
 
             <div className="wrapper bg-bg-pattern bg-cover">
                 <Header />

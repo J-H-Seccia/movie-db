@@ -1,22 +1,18 @@
-/*import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'*/
+import { defineConfig, loadEnv } from 'vite';
+import react from '@vitejs/plugin-react';
 
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+export default defineConfig(({ mode }) => {
+  // Load environment variables based on the current mode ('development', 'production', etc.)
+  const env = loadEnv(mode, process.cwd(), '');
 
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react()],
-})
-
-
-
-/*// https://vitejs.dev/config/
-export default defineConfig({
-  base: '/movie-db/',
-  build: {
-    outDir: 'movie-db'
-  },
-  plugins: [reactRefresh()],
-})  
-*/
+  return {
+    base: '/movie-db/',
+    build: {
+      outDir: 'movie-db'
+    },
+    define: {
+      'process.env.SOME_KEY': JSON.stringify(env.SOME_KEY)
+    },
+    plugins: [react()]
+  };
+});
